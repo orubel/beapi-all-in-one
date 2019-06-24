@@ -24,7 +24,7 @@ if(targetDir) {
     }
     logger("StackTrace", ERROR, ['STDOUT','FULL_STACKTRACE'], false )
     logger 'main.scripts.net.nosegrind.apiframework', ERROR, ['STDOUT','FULL_STACKTRACE']
-    logger 'grails.plugin.springsecurity.rest', DEBUG, ['STDOUT','FULL_STACKTRACE']
+    logger 'grails.plugin.springsecurity.rest', ERROR, ['STDOUT','FULL_STACKTRACE']
     logger 'grails.plugins.quartz', ERROR, ['STDOUT','FULL_STACKTRACE']
 
     // Spring Security Rest Testing/Logging

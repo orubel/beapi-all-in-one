@@ -30,5 +30,5 @@ if(targetDir) {
     // Spring Security Rest Testing/Logging
     logger("org.springframework.security", ERROR, ['STDOUT','FULL_STACKTRACE'])
     logger("grails.plugin.springsecurity", ERROR, ['STDOUT','FULL_STACKTRACE'])
-    logger("org.pac4j", DEBUG, ['STDOUT'], false)
+    logger("org.pac4j", ERROR, ['STDOUT'], false)
 }

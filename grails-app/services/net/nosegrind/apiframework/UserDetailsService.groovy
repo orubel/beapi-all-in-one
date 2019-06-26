@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.core.GrantedAuthority
-
+import net.nosegrind.apiframework.Person
 
 class UserDetailsService implements GrailsUserDetailsService {
 
@@ -27,13 +27,13 @@ class UserDetailsService implements GrailsUserDetailsService {
 
     @Transactional(readOnly=true, noRollbackFor=[IllegalArgumentException, UsernameNotFoundException])
     BeapiUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Person user = User.findByUsername(username)
+        Person user = Person.findByUsername(username)
         if(!user){ throw new UsernameNotFoundException('User not found', username) }
         def authorities = user.authorities.collect {
             new SimpleGrantedAuthority(it.authority)
         }
 
-        return new BeapiUserDetails(user.username, user.password, user.enabled, !user.accountExpired, !user.passwordExpired, !user.accountLocked, authorities ?: NO_ROLES, user.id, user.firstName + " " + user.lastName)
+        return new BeapiUserDetails(user.username, user.password, user.enabled, !user.accountExpired, !user.passwordExpired, !user.accountLocked, authorities ?: NO_ROLES, user.id, user.username)
     }
 }
 

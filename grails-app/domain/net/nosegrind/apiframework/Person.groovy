@@ -23,6 +23,8 @@ class Person{
 
 	String username
 	String password
+	String firstName
+	String lastName
 	String email
 	String oauthId
 	String oauthProvider
@@ -110,6 +112,8 @@ class Person{
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		firstName nullable: true
+		lastName nullable: true
 		email(nullable:false,email:true, unique: true,maxSize:100)
 		oauthId(nullable: true)
 		oauthProvider(nullable: true)

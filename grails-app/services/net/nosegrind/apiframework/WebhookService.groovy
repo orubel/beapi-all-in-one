@@ -2,7 +2,7 @@ package net.nosegrind.apiframework
 
 import grails.converters.JSON
 import grails.converters.XML
-import org.grails.validation.routines.UrlValidator
+//import org.grails.validation.routines.UrlValidator
 
 class WebhookService {
 
@@ -92,6 +92,7 @@ class WebhookService {
         return data
     }
 
+    /*
     boolean validateUrl(String url){
         String[] schemes = ["http","https"]
         UrlValidator urlValidator = new UrlValidator(schemes)
@@ -101,4 +102,5 @@ class WebhookService {
             return false
         }
     }
+    */
 }

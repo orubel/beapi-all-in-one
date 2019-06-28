@@ -24,6 +24,7 @@ buildscript {
         classpath group: 'org.codehaus.gpars', name: 'gpars', version: '1.2.1'
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
+        classpath "gradle.plugin.com.energizedwork.webdriver-binaries:webdriver-binaries-gradle-plugin:$webdriverBinariesVersion"
 
         // for installing local
         classpath "org.grails.plugins:api-framework:${apiFrameworkVersion}"
@@ -45,7 +46,7 @@ group "@grails.app.group@"
 
 apply plugin: "org.springframework.boot"
 apply plugin: "org.grails.grails-web"
-
+apply plugin:"com.energizedwork.webdriver-binaries"
 
 //apply plugin: "org.grails.grails-gsp"
 
@@ -64,6 +65,7 @@ repositories {
     maven { url "https://repo.grails.org/grails/core" }
     maven { url "${System.getProperty('user.home')}/.m2/repository/" }
     maven { url "http://dl.bintray.com/nosegrind/plugins" }
+    maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
     //maven { url "http://maven.it.su.se/it.su.se/maven2/" }
     jcenter {
         url "http://jcenter.bintray.com/"
@@ -103,7 +105,7 @@ dependencies {
     /**
      * MVC Support Block
      */
-    provided 'org.grails.plugins:cache:4.0.0'
+    provided 'org.grails.plugins:cache:5.0.0.RC1'
     compile "org.grails.plugins:async"
     provided "org.grails:grails-logging"
     provided "org.grails:grails-plugin-i18n"
@@ -147,7 +149,7 @@ dependencies {
     /**
      * Security block
      */
-    provided('org.grails.plugins:spring-security-core:3.2.0.M1'){
+    provided('org.grails.plugins:spring-security-core:4.0.0.RC2'){
         exclude(module: 'org.grails.plugins:cors')
     }
     compile('org.grails.plugins:spring-security-rest:2.0.0.M2'){
@@ -163,11 +165,15 @@ dependencies {
     /**
      * Test Block
      */
+    testCompile "org.grails:grails-gorm-testing-support"
+    testCompile "org.grails:grails-web-testing-support"
     testCompile "org.grails.plugins:geb"
-    testCompile "org.grails:grails-plugin-testing"
-    testCompile "org.grails:grails-gorm-testing-support:1.1.4"
-    testCompile "org.grails:grails-web-testing-support:1.1.4"
-    testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+
+    //testCompile "org.grails.plugins:geb"
+    //testCompile "org.grails:grails-plugin-testing"
+    //testCompile "org.grails:grails-gorm-testing-support:1.1.4"
+    //testCompile "org.grails:grails-web-testing-support:1.1.4"
+    //testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
     testCompile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {
         exclude module: "commons-logging"
         exclude module: "xml-apis"
@@ -179,7 +185,9 @@ dependencies {
     /**
      * Scheduling
      */
-    compile 'org.grails.plugins:quartz:2.0.13'
+    compile("org.quartz-scheduler:quartz:2.2.3") {
+        exclude group: 'slf4j-api', module: 'c3p0'
+    }
 }
 
 bootRun {
@@ -197,5 +205,6 @@ generateIostateCommand {
 generateControllerCommand {
     systemProperties = System.properties
 }
+
 
 

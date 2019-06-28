@@ -14,7 +14,7 @@ class Hook {
 	
 	static constraints = {
 		user(nullable:false)
-		url(nullable:false)
+		url(url: true,nullable:false)
 		format(nullable:false)
 		service(nullable:false)
 		attempts(nullable:false)

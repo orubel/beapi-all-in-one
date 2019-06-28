@@ -1,7 +1,7 @@
 package net.nosegrind.apiframework
 
-
 import grails.testing.mixin.integration.Integration
+
 import grails.gorm.transactions.*
 import spock.lang.*
 import geb.spock.*
@@ -48,7 +48,7 @@ class ApiFunctionalSpec extends Specification {
             String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
 
             def info
-            String url = "curl -v  -H 'Content-Type: application/json' -H 'Origin: http://localhost' -H 'Access-Control-Request-Headers: Origin,X-Requested-With' -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' http://oauth.beapi.io:8080${loginUri}"
+            String url = "curl -v  -H 'Content-Type: application/json' -H 'Origin: http://localhost' -H 'Access-Control-Request-Headers: Origin,X-Requested-With' -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' ${this.testDomain}${loginUri}"
             def proc = ['bash','-c',url].execute()
             proc.waitFor()
 

@@ -12,7 +12,7 @@ import grails.gorm.transactions.Transactional
 
 //import org.h2.tools.Server
 
-@Transactional('auth')
+//@Transactional('auth')
 class BootStrap {
 
     final String[] args = ["-tcpPort", "8092", "-tcpAllowOthers"]

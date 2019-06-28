@@ -4,12 +4,12 @@ import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
 import org.apache.catalina.connector.Connector;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.security.SecurityFilterAutoConfiguration
+import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration
 import org.springframework.boot.autoconfigure.transaction.jta.*
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+//import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+//import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory
 import org.springframework.context.annotation.Bean
-
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 
 //import org.grails.io.support.Resource
 import org.springframework.context.EnvironmentAware
@@ -17,7 +17,7 @@ import org.springframework.core.env.Environment
 import org.springframework.core.env.MapPropertySource
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.security.SecurityFilterAutoConfiguration
+//import org.springframework.boot.autoconfigure.security.SecurityFilterAutoConfiguration
 import org.springframework.boot.autoconfigure.transaction.jta.*
 
 import org.grails.config.yaml.YamlPropertySourceLoader
@@ -38,8 +38,8 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware,Ex
 
     // Add secondary connector for port 8080
     @Bean
-    public EmbeddedServletContainerFactory servletContainer() {
-        TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory()
+    public TomcatServletWebServerFactory servletContainer() {
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory()
         tomcat.addAdditionalTomcatConnectors(createConnector())
         //tomcat.addContextValves(headerEncodingValve)
         return tomcat
@@ -92,7 +92,7 @@ trait ExternalConfig implements EnvironmentAware {
                         MapPropertySource groovyConfig = new MapPropertySource(resource.filename, properties)
                         environment.propertySources.addFirst(groovyConfig)
                     } else if (finalLocation.endsWith('.yml')) {
-                        NavigableMapPropertySource yamlConfig = yamlPropertySourceLoader.load(resource.filename, resource, null) as NavigableMapPropertySource
+                        def yamlConfig = yamlPropertySourceLoader.load(resource.filename, resource, null)
                         environment.propertySources.addFirst(yamlConfig)
                     } else {
                         // properties

@@ -16,10 +16,8 @@ class PersonController{
 	LinkedHashMap show(){
 		try{
 			Person user = new Person()
-			//if(isSuperuser() && params?.id){
-			if(isSuperuser()){
-
-				user = Person.get(springSecurityService.principal.id)
+			if(isSuperuser() && params?.id){
+				user = Person.get(params.id)
 				//user = Person.findWhere(id: params?.id?.toLong(), enabled: true)
 			}else{
 				user = Person.get(springSecurityService.principal.id)
@@ -37,7 +35,7 @@ class PersonController{
     }
 
 	LinkedHashMap create(){
-		//try{
+		try{
 			Person user = new Person(username:"${params.username}",password:"${params.password}",email:"${params.email}")
 			if(user){
 				if(!user.save(flush:true,failOnError:true)){
@@ -47,9 +45,9 @@ class PersonController{
 			}else{
 				render(status: 500,text:"Params sent do not match requirements for database table.")
 			}
-		//}catch(Exception e){
-		//	throw new Exception("[PersonController : create] : Exception - full stack trace follows:",e)
-		//}
+		}catch(Exception e){
+			throw new Exception("[PersonController : create] : Exception - full stack trace follows:",e)
+		}
 	}
 
 	LinkedHashMap update(){

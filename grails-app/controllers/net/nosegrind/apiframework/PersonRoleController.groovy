@@ -9,7 +9,10 @@ class PersonRoleController{
 
 			if(role){
 				if(!role.save(flush:true,failOnError:true)){
-					role.errors.allErrors.each { println(it) }
+					println("###FAILED###")
+					role.errors.allErrors.each {
+						println("### ERR:"+it)
+					}
 				}
 				return [personrole:role]
 			}else{
@@ -23,7 +26,8 @@ class PersonRoleController{
 	LinkedHashMap showByPerson(){
 		try{
 			PersonRole role = new PersonRole()
-			role = PersonRole.findByPerson(params?.personId?.toLong())
+			Person person = Person.get(params?.personId)
+			role = PersonRole.findByPerson(person)
 
 			if(role){
 				return [personrole:role]

@@ -85,24 +85,19 @@ class ErrorFunctionalSpec extends Specification {
         LinkedHashMap mapData = [:]
         String data = "{'personId': '${this.guestId}','roleId':'1'}"
 
-        // test for existing guest user based on mockdata
-        String className = "net.nosegrind.apiframework.Person"
-        Class Person = grailsApplication.getDomainClass(className).clazz
-
-        def gperson = Person.get(this.guestId)
-        if(gperson){
-            METHOD = "GET"
-            action = 'show'
-            data = "{'id':'${gperson.id}'}"
-        }
 
         def info
         def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
         proc.waitFor()
         def outputStream = new StringBuffer()
-        proc.waitForProcessOutput(outputStream, System.err)
+        def error = new StringWriter()
+        proc.waitForProcessOutput(outputStream, error)
         String output = outputStream.toString()
-        info = new JsonSlurper().parseText(output)
+        if(output) {
+            info = new JsonSlurper().parseText(output)
+        }else{
+            //println("CREATE guest role call [ERR] :"+error +"[ENDERR]###")
+        }
         when:"info is not null"
         assert info!=null
         then:"created user"
@@ -302,7 +297,7 @@ class ErrorFunctionalSpec extends Specification {
             }
         when:"all values returned"
             //println("#### Testing Bad Token with Bad Variables:"+response2)
-            assert outputStream.toString()==""
+            assert outputStream.toString() =~ /Token not found in database. Authorization Attempt Failed/
         then:"bad method sent"
             assert method == '401'
     }
@@ -408,5 +403,6 @@ class ErrorFunctionalSpec extends Specification {
         then:"delete created user"
             assert this.guestId == info.id
     }
+
 }
 

@@ -22,7 +22,7 @@ class ErrorFunctionalSpec extends Specification {
 
     @Autowired
     ApplicationContext applicationContext
-
+    def grailsApplication
     @Shared String token
     @Shared String guestToken
     @Shared List authorities = ['permitAll']
@@ -65,7 +65,8 @@ class ErrorFunctionalSpec extends Specification {
         def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${this.guestdata}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
         proc.waitFor()
         def outputStream = new StringBuffer()
-        proc.waitForProcessOutput(outputStream, System.err)
+        def error = new StringWriter()
+        proc.waitForProcessOutput(outputStream, error)
         String output = outputStream.toString()
         info = new JsonSlurper().parseText(output)
         when:"info is not null"
@@ -73,7 +74,6 @@ class ErrorFunctionalSpec extends Specification {
         assert info!=null
         then:"created user"
         assert info['id'] != null
-
     }
 
     // create using mockdata
@@ -82,8 +82,19 @@ class ErrorFunctionalSpec extends Specification {
         String METHOD = "POST"
         String controller = 'personRole'
         String action = 'create'
-
+        LinkedHashMap mapData = [:]
         String data = "{'personId': '${this.guestId}','roleId':'1'}"
+
+        // test for existing guest user based on mockdata
+        String className = "net.nosegrind.apiframework.Person"
+        Class Person = grailsApplication.getDomainClass(className).clazz
+
+        def gperson = Person.get(this.guestId)
+        if(gperson){
+            METHOD = "GET"
+            action = 'show'
+            data = "{'id':'${gperson.id}'}"
+        }
 
         def info
         def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
@@ -117,32 +128,45 @@ class ErrorFunctionalSpec extends Specification {
     // create using mockdata
     void "CREATE api call"() {
         setup:"api is called"
-            String METHOD = "POST"
+            String METHOD = 'POST'
             String controller = 'person'
             String action = 'create'
+            LinkedHashMap mapData = [:]
+            String data = "{"
+
 
             ApiCacheService apiCacheService = applicationContext.getBean("apiCacheService")
             LinkedHashMap cache = apiCacheService.getApiCache(controller)
             Integer version = cache['cacheversion']
 
-
-            String data = "{"
             cache?."${version}"?."${action}".receives.each(){ k,v ->
                 v.each(){
+                    mapData[it.name] = it.mockData
                     data += "'"+it.name+"': '"+it.mockData+"',"
                 }
             }
             data += "}"
 
-            def info
+            // test for existing guest user based on mockdata
+            String className = "net.nosegrind.apiframework.Person"
+            Class Person = grailsApplication.getDomainClass(className).clazz
+            def gperson = Person.findByUsername(mapData.username)
+            if(gperson){
+                METHOD = "GET"
+                action = 'show'
+                data = "{'id':'${gperson.id}'}"
+            }
 
+
+            def info
             def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute();
 
             proc.waitFor()
             def outputStream = new StringBuffer()
-            proc.waitForProcessOutput(outputStream, System.err)
+            def error = new StringWriter()
+            proc.waitForProcessOutput(outputStream, error)
+        
             String output = outputStream.toString()
-
             info = new JsonSlurper().parseText(output)
 
         when:"info is not null"
@@ -198,7 +222,8 @@ class ErrorFunctionalSpec extends Specification {
             }
 
         when:"all values returned"
-            assert outputStream.toString()==""
+            //Expected request method for endpoint does not match sent method
+            assert outputStream.toString() =~ /Expected request method for endpoint does not match sent method/
         then:"bad method sent"
             assert method == '400'
     }
@@ -238,7 +263,7 @@ class ErrorFunctionalSpec extends Specification {
                 }
             }
         when:"all values returned"
-            assert outputStream.toString()==""
+            assert outputStream.toString() =~ /Expected request variables for endpoint/
         then:"bad method sent"
             assert method == '400'
     }
@@ -276,6 +301,7 @@ class ErrorFunctionalSpec extends Specification {
                 }
             }
         when:"all values returned"
+            //println("#### Testing Bad Token with Bad Variables:"+response2)
             assert outputStream.toString()==""
         then:"bad method sent"
             assert method == '401'
@@ -316,6 +342,7 @@ class ErrorFunctionalSpec extends Specification {
 				}
 			}
         when:"info is not null"
+            //println("#### Testing CheckAuth on Unauthorized Endpoint:"+response2)
             assert method!=null
         then:"created user"
             assert method != 200
@@ -328,6 +355,7 @@ class ErrorFunctionalSpec extends Specification {
     // create using mockdata
     void "DELETE api call: [map]"() {
         setup:"api is called"
+
             String METHOD = "DELETE"
             String controller = 'person'
             String action = 'delete'
@@ -336,7 +364,6 @@ class ErrorFunctionalSpec extends Specification {
             ApiCacheService apiCacheService = applicationContext.getBean("apiCacheService")
             LinkedHashMap cache = apiCacheService.getApiCache(controller)
             Integer version = cache['cacheversion']
-
 
             def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/${controller}/${action}?id=${this.currentId}"].execute();
             proc.waitFor()
@@ -368,6 +395,7 @@ class ErrorFunctionalSpec extends Specification {
         setup:"api is called"
             String METHOD = "DELETE"
             LinkedHashMap info = [:]
+
             def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/person/delete?id=${this.guestId}"].execute()
             proc.waitFor()
             def outputStream = new StringBuffer()

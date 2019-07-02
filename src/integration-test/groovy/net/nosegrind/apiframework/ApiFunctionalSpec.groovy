@@ -32,7 +32,7 @@ class ApiFunctionalSpec extends Specification {
     @Shared String currentId
     @Shared String guestId
     @Shared String appVersion = "v${Metadata.current.getProperty(Metadata.APPLICATION_VERSION, String.class)}"
-    @Shared String guestdata = "{'username': 'apitest','password':'testamundo','email':'api@guesttest.com'}"
+    @Shared String guestdata = "{'username': 'apitest','password':'testamundo','email':'api@guesttest.com',firstName:'api',lastName:'test'}"
     @Shared String guestlogin = 'apitest'
     @Shared String guestpassword = 'testamundo'
 
@@ -41,28 +41,13 @@ class ApiFunctionalSpec extends Specification {
     @Transactional('auth')
     void "login and get token"(){
         setup:"logging in"
-
             this.testDomain = Holders.grailsApplication.config.environments.test.grails.serverURL
             String login = Holders.grailsApplication.config.root.login
-        println("LOGIN:"+login)
 
-        try {
-            String className = "net.nosegrind.apiframework.Person"
-            Class Person = grailsApplication.getDomainClass(className).clazz
-            println(Person.getClass())
-            def list = Person.list()
-            println("PERSON:" + list)
-        }catch(Exception e){
-            println("ERROR:"+e)
-        }
 
             String password = Holders.grailsApplication.config.root.password
-        println("PASS:"+password)
-
-
-
             String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
-        println("${this.testDomain}${loginUri}")
+
             def info
             String url = "curl -v  -H 'Content-Type: application/json' -H 'Origin: http://localhost' -H 'Access-Control-Request-Headers: Origin,X-Requested-With' -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' ${this.testDomain}${loginUri}"
             def proc = ['bash','-c',url].execute()
@@ -88,6 +73,7 @@ class ApiFunctionalSpec extends Specification {
     // create using mockdata
     void "CREATE user"() {
         setup:"api is called"
+
             String METHOD = "POST"
             String controller = 'person'
             String action = 'create'
@@ -265,7 +251,7 @@ class ApiFunctionalSpec extends Specification {
         when:"info is not null"
             assert info!=[:]
         then:"get user"
-            assert info.size()==Person.count()
+            assert info.size()==Person.list().size()
     }
 
     // create using mockdata

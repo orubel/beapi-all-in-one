@@ -1,3 +1,3 @@
 beans = {
-	userDetailsService(net.nosegrind.apiframework.UserDetailsService)
+	//userDetailsService(net.nosegrind.apiframework.UserDetailsService)
 }

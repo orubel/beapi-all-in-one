@@ -1,6 +1,7 @@
 
 import grails.util.Metadata
 
+grails.cors.enabled = false
 
 String apiVersion = Metadata.current.getApplicationVersion()
 // fix for dots not working with spring security pathing
@@ -9,7 +10,7 @@ String entryPoint = "/v${apiVersion}".toString()
 String batchEntryPoint = "/b${apiVersion}".toString()
 String chainEntryPoint = "/c${apiVersion}".toString()
 String metricsEntryPoint = "/p${apiVersion}".toString()
-//String domainEntryPoint = "/d${apiVersion}".toString()
+
 
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
@@ -31,18 +32,21 @@ grails.mime.types = [ // the first one is the default format
                       xml:           ['text/xml', 'application/xml']
 ]
 
+grails.plugin.springsecurity.rest.token.storage.jwt.useSignedJwt = true
+grails.plugin.springsecurity.rest.token.storage.jwt.secret = "3r4f3g53446h356hy56hj353hv465yu35"
+grails.plugin.springsecurity.rest.token.storage.jwt.expiration = 3600
+grails.plugin.springsecurity.rest.token.storage.useGrailsCache = true
+grails.plugin.springsecurity.rest.token.storage.grailsCacheName = 'BeApiToken'
+
 // move to RequestMap once stabilized
 grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
-grails.plugin.springsecurity.rejectIfNoRule = false
+grails.plugin.springsecurity.rejectIfNoRule = true
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
-
 
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'net.nosegrind.apiframework.Person'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'net.nosegrind.apiframework.PersonRole'
 grails.plugin.springsecurity.authority.className = 'net.nosegrind.apiframework.Role'
 
-// grails.plugin.springsecurity.rememberMe.persistent = true		  
-// grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'net.nosegrind.apiframework.PersistentLogin'		  // grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'net.nosegrind.apiframework.PersistentLogin'
 grails.server.port.https = 8443
 
 grails.plugin.springsecurity.adh.errorPage = null
@@ -70,39 +74,70 @@ grails.plugin.springsecurity.failureHandler.ajaxAuthFailUrl = '/login/ajaxDenied
 
 
 grails.plugin.springsecurity.filterChain.chainMap = [
-		[pattern: "${entryPoint}/**",filters:'corsSecurityFilter,tokenCacheValidationFilter,contentTypeMarshallerFilter'],
-		[pattern: "${batchEntryPoint}/**", filters:'corsSecurityFilter,tokenCacheValidationFilter,contentTypeMarshallerFilter'],
-		[pattern: "${chainEntryPoint}/**", filters:'corsSecurityFilter,tokenCacheValidationFilter,contentTypeMarshallerFilter'],
-		[pattern: "${metricsEntryPoint}/**", filters:'corsSecurityFilter,tokenCacheValidationFilter,contentTypeMarshallerFilter'],
-		[pattern: "/admin/**", filters: 'corsSecurityFilter,tokenCacheValidationFilter,contentTypeMarshallerFilter'],
-		[pattern: "/test/testHook", filters: 'corsSecurityFilter,restAuthenticationFilter,contentTypeMarshallerFilter'],
-		[pattern: "/login/**", filters: 'corsSecurityFilter,restAuthenticationFilter'],
-		[pattern: "/logout/**", filters: 'corsSecurityFilter,restAuthenticationFilter'],
-		[pattern: "/api/login", filters: 'corsSecurityFilter,restAuthenticationFilter'],
-		[pattern: "/api/logout", filters: 'corsSecurityFilter,restAuthenticationFilter'],
-		[pattern: "/**", filters: 'corsSecurityFilter,tokenCacheValidationFilter,contentTypeMarshallerFilter,restAuthenticationFilter']
+	[pattern: "${entryPoint}/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-1/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-2/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-3/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-4/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-5/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-6/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-7/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-8/**",filters:'apiRequestFilter'],
+        [pattern: "${entryPoint}-9/**",filters:'apiRequestFilter'],
+	[pattern: "${batchEntryPoint}/**", filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-1/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-2/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-3/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-4/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-5/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-6/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-7/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-8/**",filters:'apiRequestFilter'],
+        [pattern: "${batchEntryPoint}-9/**",filters:'apiRequestFilter'],
+	[pattern: "${chainEntryPoint}/**", filters:'apiRequestFilter'],
+	[pattern: "${metricsEntryPoint}/**", filters:'apiRequestFilter'],
+	[pattern: "/api/login", filters: 'corsSecurityFilter,restAuthenticationFilter'],
+	[pattern: "/api/logout", filters: 'restAuthenticationFilter'],
+	[pattern: "/**", filters: 'apiRequestFilter']
 ]
 
 grails.plugin.springsecurity.interceptUrlMap = [
-		[pattern:"/api/**",            	access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
-		[pattern:"/${entryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
-		[pattern:"/${batchEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
-		[pattern:"/${chainEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
-		[pattern:"/${metricsEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
-		[pattern:"/${domainEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
-		[pattern:'/',                   access:['permitAll']],
-		[pattern:'/error',              access:['permitAll']],
-		[pattern:'/error/**',           access:['permitAll']],
-		[pattern:'/index',              access:['permitAll']],
-		[pattern:'/index.gsp',          access:['permitAll']],
-		[pattern:'/assets/**',          access:['permitAll']],
-		[pattern:'/login',              access:["permitAll"]],
-		[pattern:'/login/**',           access:["permitAll"]],
-		[pattern:'/logout',             access:["permitAll"]],
-		[pattern:'/logout/**',          access:["permitAll"]],
-		[pattern:'/admin',              access:["permitAll"]],
-		[pattern:'/admin/**',           access:["permitAll"]],
-		[pattern:'/test/testHook',      access:["permitAll"]]
+        [pattern:"/api/**",            	access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+	[pattern:"/${entryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-1/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-2/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-3/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-4/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-5/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-6/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-7/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-8/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${entryPoint}-9/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-1/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-2/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-3/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-4/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-5/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-6/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-7/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-8/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${batchEntryPoint}-9/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${chainEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${metricsEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        [pattern:"/${domainEntryPoint}/**",   access:["permitAll && \"{'GET','PUT','POST','DELETE','OPTIONS'}\".contains(request.getMethod())"]],
+        //[pattern:'/',                   access:['permitAll']],
+        [pattern:'/error',              access:['permitAll']],
+        [pattern:'/error/**',           access:['permitAll']],
+        [pattern:'/index',              access:['permitAll']],
+        [pattern:'/index.gsp',          access:['permitAll']],
+        [pattern:'/assets/**',          access:['permitAll']],
+	[pattern:'/login/**',           access:["permitAll"]],
+	[pattern:'/logout',             access:["permitAll"]],
+	[pattern:'/logout/**',          access:["permitAll"]],
+	[pattern:'/admin',              access:["permitAll"]],
+	[pattern:'/admin/**',           access:["permitAll"]],
+	[pattern:'/test/testHook',      access:["permitAll"]]
 ]
 
 
@@ -134,9 +169,10 @@ grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName = 'aut
 //grails.plugin.springsecurity.rest.token.validation.headerName   = 'X-Auth-Token'
 //grails.plugin.springsecurity.rest.token.validation.endpointUrl  = '/api/validate'
 
-grails.plugin.springsecurity.rememberMe.alwaysRemember = true
+//grails.plugin.springsecurity.rememberMe.alwaysRemember = true
+grails.plugin.springsecurity.rememberMe.alwaysRemember = false
 grails.plugin.springsecurity.rememberMe.persistent = false
-//grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'net.nosegrind.apiframework.PersistentLogin'
+grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'net.nosegrind.apiframework.PersistentLogin'
 
 // makes the application easier to work with
 grails.plugin.springsecurity.logout.postOnly = false

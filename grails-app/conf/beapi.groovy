@@ -2,6 +2,7 @@
 import grails.util.Metadata
 
 grails.cors.enabled = false
+spring.jpa.open-in-view=false
 
 String apiVersion = Metadata.current.getApplicationVersion()
 // fix for dots not working with spring security pathing

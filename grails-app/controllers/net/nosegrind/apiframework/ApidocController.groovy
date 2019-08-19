@@ -13,7 +13,7 @@ class ApidocController {
 		redirect(action:'show')
 	}
 
-	HashMap show(){
+	LinkedHashMap show(){
 		HashMap docs = [:]
 		List cacheKeys = apiCacheService.getCacheKeys()
 

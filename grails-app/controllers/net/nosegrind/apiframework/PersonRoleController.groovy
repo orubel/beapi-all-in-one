@@ -5,6 +5,8 @@ class PersonRoleController{
 
 	LinkedHashMap create(){
 		try{
+			println("params:"+params)
+			println("person:${params.personId},role:${params.roleId}")
 			PersonRole role = new PersonRole(person:"${params.personId}",role:"${params.roleId}")
 
 			if(role){

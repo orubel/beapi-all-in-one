@@ -7,6 +7,7 @@ class RoleController{
 		return [role:result]
 	}
 
+
 	LinkedHashMap create(){
 		try{
 			Role role = new Role(usernameauthority:"${params.authority}")
@@ -20,7 +21,7 @@ class RoleController{
 				render(status: 500,text:"Id does not match record in database.")
 			}
 		}catch(Exception e){
-			throw new Exception("[RoleController : get] : Exception - full stack trace follows:",e)
+			throw new Exception("[RoleController : create] : Exception - full stack trace follows:",e)
 		}
 	}
 

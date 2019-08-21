@@ -24,16 +24,16 @@ class TestFunctionalSpec extends Specification {
     ApplicationContext applicationContext
     def testService
 
-
+    
     void "AUTOMATION TEST LOOP"() {
         setup:"get data"
             this.testService = applicationContext.getBean("testService")
             this.testService.initTest()
     }
 
+
     void cleanup() {
         this.testService.cleanupTest()
     }
-
 }
 

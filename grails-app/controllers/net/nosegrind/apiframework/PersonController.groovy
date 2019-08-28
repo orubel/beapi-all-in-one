@@ -51,13 +51,13 @@ class PersonController{
 	}
 
 	LinkedHashMap update(){
+		println()
 		try{
 			Person user = new Person()
 			if(isSuperuser()){
 				user = Person.findWhere(id: params?.id?.toLong(), enabled: true)
 			}else{
-				//user = Person.get(springSecurityService.principal.id)
-				user = springSecurityService.getCurrentUser()
+				user = Person.get(springSecurityService.principal.id)
 			}
 			if(user){
 				user.username = params.username

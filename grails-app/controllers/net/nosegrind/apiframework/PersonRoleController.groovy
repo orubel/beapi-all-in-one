@@ -4,33 +4,30 @@ class PersonRoleController{
 
 
 	LinkedHashMap create(){
-		try{
-			println("params:"+params)
-			println("person:${params.personId},role:${params.roleId}")
-			PersonRole role = new PersonRole(person:"${params.personId}",role:"${params.roleId}")
+		//try{
+			PersonRole prole = new PersonRole(personId:params?.personId?.toLong(),roleId:params.roleId.toLong())
 
-			if(role){
-				if(!role.save(flush:true,failOnError:true)){
+			if(prole){
+				if(!prole.save(flush:true)){
 					println("###FAILED###")
-					role.errors.allErrors.each {
+					prole.errors.allErrors.each {
 						println("### ERR:"+it)
 					}
 				}
-				return [personrole:role]
+				return [personrole:prole]
 			}else{
 				render(status: 500,text:"Bad data sent. Could not complete transaction.")
 			}
-		}catch(Exception e){
-			throw new Exception("[PersonRoleController : get] : Exception - full stack trace follows:",e)
-		}
+		//}catch(Exception e){
+		//	throw new Exception("[PersonRoleController : get] : Exception - full stack trace follows:",e)
+		//}
 	}
 
 	LinkedHashMap showByPerson(){
 		try{
 			PersonRole role = new PersonRole()
-			Person person = Person.get(params?.personId)
+			Person person = Person.get(params?.personId?.toLong())
 			role = PersonRole.findByPerson(person)
-
 			if(role){
 				return [personrole:role]
 			}else{
@@ -43,11 +40,11 @@ class PersonRoleController{
 
 	LinkedHashMap showByRole(){
 		try{
-			PersonRole role = new PersonRole()
-			role = PersonRole.findByRole(params?.roleId?.toLong())
-
-			if(role){
-				return [personrole:role]
+			PersonRole prole = new PersonRole()
+			Role role = Role.get(params?.roleId?.toLong())
+			prole = PersonRole.findByRole(role)
+			if(prole){
+				return [personrole:prole]
 			}else{
 				render(status: 500,text:"Id does not match record in database.")
 			}
@@ -59,7 +56,7 @@ class PersonRoleController{
 	LinkedHashMap delete() {
 		PersonRole role
 		try {
-			Person person = Person.get(params.personId)
+			Person person = Person.get(params.personId?.toLong())
 			if (person) {
 				role = PersonRole.findByPerson(person)
 				if (role) {

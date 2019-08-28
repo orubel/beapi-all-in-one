@@ -45,7 +45,7 @@ class BootStrap {
             }
         }
 
-
+        // bootstrap admin
         Person user = Person.findByUsername("${grailsApplication.config.root.login}")
         PersonRole.withTransaction { status ->
             Role adminRole = Role.findByAuthority("ROLE_ADMIN")
@@ -72,6 +72,7 @@ class BootStrap {
 
             status.isCompleted()
         }
+
     }
 
     def destroy = {

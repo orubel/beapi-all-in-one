@@ -3,7 +3,7 @@ package net.nosegrind.apiframework
 import grails.gorm.DetachedCriteria
 
 class PersonRole implements Serializable {
-
+	static belongsTo = [Person, Role]
 
 	Person person
 	Role role

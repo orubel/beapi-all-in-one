@@ -10,7 +10,7 @@ class RoleController{
 
 	LinkedHashMap create(){
 		try{
-			Role role = new Role(usernameauthority:"${params.authority}")
+			Role role = new Role(authority:"${params.authority}")
 
 			if(role){
 				if(!role.save(flush:true,failOnError:true)){
@@ -21,7 +21,7 @@ class RoleController{
 				render(status: 500,text:"Id does not match record in database.")
 			}
 		}catch(Exception e){
-			throw new Exception("[RoleController : create] : Exception - full stack trace follows:",e)
+			throw new Exception("[RoleController : create] : Role may already exist. Please check database and try again. Exception - full stack trace follows:",e)
 		}
 	}
 
@@ -31,12 +31,12 @@ class RoleController{
 			role = Role.findByAuthority(params.authority)
 			if(role){
 				role.delete(flush: true, failOnError: true)
-				return [role: params.authority]
+				return [role: [authority:params.authority]]
 			}else{
 				render(status: 500,text:"Role '" + params.authority + "' does not match record in database.")
 			}
 		}catch(Exception e){
-			throw new Exception("[RoleController : delete] : Exception - full stack trace follows:",e)
+			throw new Exception("[RoleController : delete] : Role may no longer exist. Exception - full stack trace follows:",e)
 		}
 	}
 }

@@ -51,11 +51,10 @@ class PersonController{
 	}
 
 	LinkedHashMap update(){
-		println()
 		try{
-			Person user = new Person()
+			Person user
 			if(isSuperuser()){
-				user = Person.findWhere(id: params?.id?.toLong(), enabled: true)
+				user = Person.get(params?.id?.toLong())
 			}else{
 				user = Person.get(springSecurityService.principal.id)
 			}
@@ -123,7 +122,7 @@ class PersonController{
 	LinkedHashMap enable() {
 		Person user
 		try {
-			if(springSecurityService.principal.authorities*.contains('ROLE_ADMIN')){
+			if(isSuperuser()){
 				user = Person.get(params?.id?.toLong())
 			}else{
 				user = Person.get(springSecurityService.principal.id)

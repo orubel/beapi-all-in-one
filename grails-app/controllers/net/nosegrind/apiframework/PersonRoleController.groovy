@@ -5,11 +5,10 @@ class PersonRoleController{
 
 	LinkedHashMap create(){
 		//try{
-			PersonRole prole = new PersonRole(personId:params?.personId?.toLong(),roleId:params.roleId.toLong())
+			PersonRole prole = new PersonRole(person:params?.personId?.toLong(),role:params.roleId.toLong())
 
 			if(prole){
 				if(!prole.save(flush:true)){
-					println("###FAILED###")
 					prole.errors.allErrors.each {
 						println("### ERR:"+it)
 					}
@@ -25,11 +24,11 @@ class PersonRoleController{
 
 	LinkedHashMap showByPerson(){
 		try{
-			PersonRole role = new PersonRole()
+			PersonRole prole = new PersonRole()
 			Person person = Person.get(params?.personId?.toLong())
-			role = PersonRole.findByPerson(person)
-			if(role){
-				return [personrole:role]
+			prole = PersonRole.findByPerson(person)
+			if(prole){
+				return [personrole:['roleId':prole.role.id]]
 			}else{
 				render(status: 500,text:"Id does not match record in database.")
 			}
@@ -39,12 +38,14 @@ class PersonRoleController{
 	}
 
 	LinkedHashMap showByRole(){
+		println("### showByRole")
 		try{
-			PersonRole prole = new PersonRole()
+
 			Role role = Role.get(params?.roleId?.toLong())
-			prole = PersonRole.findByRole(role)
+			PersonRole prole = PersonRole.findByRole(role)
+
 			if(prole){
-				return [personrole:prole]
+				return [personrole:['personId':prole.person.id]]
 			}else{
 				render(status: 500,text:"Id does not match record in database.")
 			}

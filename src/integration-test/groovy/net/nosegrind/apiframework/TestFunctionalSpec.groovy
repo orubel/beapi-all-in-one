@@ -31,9 +31,6 @@ class TestFunctionalSpec extends Specification {
             this.testService.initTest()
     }
 
-
-    void cleanup() {
-        this.testService.cleanupTest()
-    }
+    
 }
 

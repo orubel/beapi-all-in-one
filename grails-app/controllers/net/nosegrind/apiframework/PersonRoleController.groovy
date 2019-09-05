@@ -4,7 +4,7 @@ class PersonRoleController{
 
 
 	LinkedHashMap create(){
-		//try{
+		try{
 			PersonRole prole = new PersonRole(person:params?.personId?.toLong(),role:params.roleId.toLong())
 
 			if(prole){
@@ -17,9 +17,9 @@ class PersonRoleController{
 			}else{
 				render(status: 500,text:"Bad data sent. Could not complete transaction.")
 			}
-		//}catch(Exception e){
-		//	throw new Exception("[PersonRoleController : get] : Exception - full stack trace follows:",e)
-		//}
+		}catch(Exception e){
+			throw new Exception("[PersonRoleController : get] : Exception - full stack trace follows:",e)
+		}
 	}
 
 	LinkedHashMap showByPerson(){
@@ -38,7 +38,6 @@ class PersonRoleController{
 	}
 
 	LinkedHashMap showByRole(){
-		println("### showByRole")
 		try{
 
 			Role role = Role.get(params?.roleId?.toLong())

@@ -31,7 +31,7 @@ class ApidocFunctionalSpec extends Specification {
     @Shared String currentId
     @Shared String guestId
     @Shared String appVersion = "v${Metadata.current.getProperty(Metadata.APPLICATION_VERSION, String.class)}"
-    @Shared String guestdata = "{'username': 'apidoctest','password':'testamundo','email':'apidoc@guesttest.com'}"
+    @Shared String guestdata = "{'username': 'apidoctest','password':'testamundo','email':'apidoc@guesttest.com','firstName':'Fred','lastName':'Flintstone'}"
     @Shared String guestlogin = 'apidoctest'
     @Shared String guestpassword = 'testamundo'
 

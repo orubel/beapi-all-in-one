@@ -39,7 +39,7 @@ net.nosegrind.IOState
 	"CURRENTSTABLE": "1",
 	"VERSION": {
 		"1": {
-			"DEFAULTACTION":"list",
+			"DEFAULTACTION":"show",
 			"URI": {
 				"show": {
 					"METHOD":"GET",

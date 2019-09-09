@@ -23,7 +23,7 @@ net.nosegrind.IOState
             "key": "PRIMARY",
             "type": "Long",
             "description":"ID for Event",
-	    "mockData":"1"
+	    "mockData":""
         },
         "version": {
             "type": "Long",
@@ -44,6 +44,16 @@ net.nosegrind.IOState
             "type": "String",
             "description":"Account Email",
 	    "mockData":"test@mockdata.com"
+	},
+	"firstName":{
+            "type": "String",
+            "description":"first name",
+	    "mockData":"Sherlock"
+	},
+	"lastName":{
+            "type": "String",
+            "description":"last name",
+	    "mockData":"Holmes"
 	},
 	"oauthProvider":{
             "type": "String",
@@ -89,10 +99,10 @@ net.nosegrind.IOState
 				    "HOOK":["ROLE_ADMIN"]
 				},
 			        "REQUEST": {
-			            "permitAll":["username","password","email"]
+			            "permitAll":["username","password","email","firstName","lastName"]
 			        },
 			        "RESPONSE": {
-			        	"permitAll":["id","version"]
+			        	"permitAll":["id","version","username","email","enabled","accountExpired"]
 			        }
 			    },
 			    "update": {
@@ -104,7 +114,7 @@ net.nosegrind.IOState
 				},
 			        "REQUEST": {
 			            "permitAll":["username","password","email"],
-                                    "ROLE_ADMIN":["id"],
+                                    "ROLE_ADMIN":["id","enabled"]
 			        },
 			        "RESPONSE": {
 			        	"permitAll":["id","version"]
@@ -119,7 +129,7 @@ net.nosegrind.IOState
 				},
 			        "REQUEST": {
 			            "permitAll":[],
-				    "ROLE_ADMIN":["id"],
+				    "ROLE_ADMIN":["id"]
 			        },
 			        "RESPONSE": {
 			        	"permitAll":["id","version","username","email","enabled","accountExpired"]
@@ -140,36 +150,6 @@ net.nosegrind.IOState
 			        	"permitAll":["id","version","username","email","enabled","accountExpired"]
 			        }
 			    },
-			    "enable": {
-			     	"METHOD":"GET",
-			    	"DESCRIPTION":"Enable Person",
-			    	"ROLES":{
-				    "BATCH":["ROLE_ADMIN"],
-				    "HOOK":["ROLE_ADMIN"]
-				},
-			        "REQUEST": {
-                                    "permitAll":[],
-                                    "ROLE_ADMIN":["id"],
-			        },
-			        "RESPONSE": {
-			        	"permitAll":["id"]
-			        }
-			    },
-			    "disable": {
-			     	"METHOD":"GET",
-			    	"DESCRIPTION":"Disable Person",
-			    	"ROLES":{
-				    "BATCH":["ROLE_ADMIN"],
-				    "HOOK":["ROLE_ADMIN"]
-				},
-			        "REQUEST": {
-                                    "permitAll":[],
-                                    "ROLE_ADMIN":["id"],
-			        },
-			        "RESPONSE": {
-			        	"permitAll":["id"]
-			        }
-			    },
 			    "delete": {
 			     	"METHOD":"DELETE",
 			    	"DESCRIPTION":"Delete Person",
@@ -179,7 +159,7 @@ net.nosegrind.IOState
 				},
 			        "REQUEST": {
 			            "permitAll":[],
-                                    "ROLE_ADMIN":["id"],
+                                    "ROLE_ADMIN":["id"]
 			        },
 			        "RESPONSE": {
 			        	"permitAll":["id"]

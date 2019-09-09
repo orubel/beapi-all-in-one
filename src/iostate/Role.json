@@ -17,13 +17,13 @@ net.nosegrind.IOState
 	
 {
     "NAME":"role",
-    "NETWORKGRP": "public",
+    "NETWORKGRP": "private",
     "VALUES": {
         "id": {
             "key": "PRIMARY",
             "type": "Long",
             "description":"ID for Event",
-	    "mockData":"1"
+	    "mockData":""
         },
         "version": {
             "type": "Long",
@@ -33,7 +33,7 @@ net.nosegrind.IOState
 	"authority":{
             "type": "String",
             "description":"Roles",
-	    "mockData":"ROLE_USER"
+	    "mockData":"ROLE_TEST"
 	}
     },
 	"CURRENTSTABLE": "1",
@@ -52,7 +52,7 @@ net.nosegrind.IOState
 			            "permitAll":["authority"]
 			        },
 			        "RESPONSE": {
-			        	"permitAll":["id","version,authority"]
+			            "permitAll":["id","version","authority"]
 			        }
 			    },
 			    "list": {
@@ -66,7 +66,7 @@ net.nosegrind.IOState
 			            "permitAll":[]
 			        },
 			        "RESPONSE": {
-			        	"permitAll":["id","version","authority"]
+			            "permitAll":["id","version","authority"]
 			        }
 			    },
 			    "delete": {
@@ -80,7 +80,7 @@ net.nosegrind.IOState
 			            "permitAll":["authority"]
 			        },
 			        "RESPONSE": {
-			        	"permitAll":["authority"]
+			            "permitAll":["authority"]
 			        }
 			    }
 			}

@@ -4,7 +4,7 @@ apitoolkit:
     procCores: 8
     networkGroups: ['private','public']
     networkRoles:
-        public: ['ROLE_USER','ROLE_ADMIN']  
+        public: ['ROLE_USER','ROLE_ADMIN']
         private: ['ROLE_ADMIN']
     views: ['admin','apidoc','api','login','logout']
     apiServer: ['http://localhost:8080']
@@ -29,8 +29,8 @@ apitoolkit:
         includeEnvironments: ['development','test','production']
         excludeEnvironments: []
         networkGroups:
-            public: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net']  
-            private: ['http://localhost','http://localhost:8080','http://127.0.0.1']  
+            public: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net']
+            private: ['http://localhost','http://localhost:8080','http://127.0.0.1']
 
 ---
 root:

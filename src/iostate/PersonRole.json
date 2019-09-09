@@ -21,15 +21,17 @@ net.nosegrind.IOState
     "VALUES": {
         "personId": {
             "key": "FOREIGN",
+            "reference": "Person",
             "type": "Long",
             "description":"ID for Person",
-	    "mockData":"1"
+	    "mockData":""
         },
         "roleId": {
             "key": "FOREIGN",
+            "reference": "Role",
             "type": "Long",
             "description":"ID for Role",
-	    "mockData":"1"
+	    "mockData":""
         },
         "version": {
             "type": "Long",

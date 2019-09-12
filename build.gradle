@@ -98,7 +98,7 @@ dependencies {
      * API Block
      */
     compile "org.grails.plugins:api-framework:${apiFrameworkVersion}"
-    //compile group: 'org.scribe', name: 'scribe', version: '1.3.7'
+    //compile group: 'org.scribe', name: 'scribe', version: '1.4.7'
 
     /**
      * MVC Support Block

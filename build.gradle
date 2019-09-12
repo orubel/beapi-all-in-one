@@ -63,7 +63,7 @@ repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
     maven { url "${System.getProperty('user.home')}/.m2/repository/" }
-    maven { url "http://dl.bintray.com/nosegrind/plugins" }
+    maven { url "http://dl.bintray.com/orubel/plugins" }
     //maven { url "http://maven.it.su.se/it.su.se/maven2/" }
     jcenter {
         url "http://jcenter.bintray.com/"

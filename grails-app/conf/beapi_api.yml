@@ -23,6 +23,7 @@ apitoolkit:
         # in seconds (3600 = 60 minutes)
         expires: 3600
     serverType: master
+    autoTest: false
     webhook:
         services: ['iostate']
     corsInterceptor:

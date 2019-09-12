@@ -13,7 +13,7 @@ buildscript {
         maven { url "https://repo.grails.org/grails/core" }
 
         // for installing local
-        maven { url "${System.getProperty('user.home')}/.m2/repository" }
+        //maven { url "${System.getProperty('user.home')}/.m2/repository" }
         // bintray
         maven { url "http://dl.bintray.com/orubel/plugins" }
         jcenter {

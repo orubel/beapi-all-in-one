@@ -18,7 +18,7 @@ environments:
             username: "root"
             password: "db_password"
             # dbCreate: "create-drop"
-            url: "jdbc:mysql://localhost:3306/testdb"
+            url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update
             properties:
                    jmxEnabled: true
@@ -47,7 +47,7 @@ environments:
             username: "root"
             password: "db_password"
             # dbCreate: "create-drop"
-            url: "jdbc:mysql://localhost:3306/testdb"
+            url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update
             properties:
                    jmxEnabled: true
@@ -76,7 +76,7 @@ environments:
             username: "root"
             password: "db_password"
             # dbCreate: "create-drop"
-            url: "jdbc:mysql://localhost:3306/testdb"
+            url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update
             properties:
                    jmxEnabled: true

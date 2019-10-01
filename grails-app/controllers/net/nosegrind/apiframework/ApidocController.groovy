@@ -24,7 +24,7 @@ class ApidocController {
 				String version = cache['currentStable']['value']
 				cache[version].each() { k, v ->
 
-					if (!['deprecated', 'defaultAction','currentStable'].contains(k)) {
+					if (!['deprecated', 'defaultAction','currentStable','testOrder', 'testUser'].contains(k)) {
 
 						if(checkAuth(cache[version][k]['roles']) || cache[version][k]['roles'].contains('permitAll')) {
 							if (!docs["${it}"]){ // avoid duplicates

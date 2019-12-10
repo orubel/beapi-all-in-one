@@ -95,7 +95,7 @@ environments:
         webhookActive: false
         apiThrottle: false
         iostate:
-            preloadDir: '.geezo/.iostate'
+            preloadDir: '.beapi/.iostate'
             archInstanceUrls:
                 proxy: "127.0.0.1"
                 mq: "127.0.0.1"

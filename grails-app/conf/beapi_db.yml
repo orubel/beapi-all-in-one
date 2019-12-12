@@ -16,7 +16,7 @@ environments:
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
             username: "root"
-            password: "db_password"
+            password: "Ch335eB0y"
             # dbCreate: "create-drop"
             url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update
@@ -45,7 +45,7 @@ environments:
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
             username: "root"
-            password: "db_password"
+            password: "Ch335eB0y"
             # dbCreate: "create-drop"
             url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update
@@ -74,7 +74,7 @@ environments:
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
             username: "root"
-            password: "db_password"
+            password: "Ch335eB0y"
             # dbCreate: "create-drop"
             url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update

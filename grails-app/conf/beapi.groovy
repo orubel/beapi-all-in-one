@@ -182,7 +182,7 @@ grails.plugin.springsecurity.useSecurityEventListener = false
 
 apitoolkit.admin.roles= ['ROLE_ROOT','ROLE_ADMIN','ROLE_ARCH']
 
-// Added by the Reactive API Framework plugin:
+// Added by the BeAPI API Framework plugin:
 //apitoolkit.attempts= 5
 //apitoolkit.roles= ['ROLE_USER','ROLE_ROOT','ROLE_ADMIN','ROLE_ARCH']
 //apitoolkit.chaining.enabled= true

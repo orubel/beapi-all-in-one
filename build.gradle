@@ -182,6 +182,20 @@ dependencies {
     compile 'org.grails.plugins:quartz:2.0.13'
 }
 
+task finalize {
+    doLast {
+        println "$projectDir/mySubDir"
+        // workingDir "$projectDir/mySubDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+            commandLine 'cmd', '/c', 'mycommand'
+        } else {
+            commandLine 'sh', '-c', 'mycommand'
+        }
+    }
+}
+
+build.finalizedBy(finalize)
+
 bootRun {
     systemProperties = System.properties
 }

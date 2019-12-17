@@ -71,6 +71,13 @@ class BeapiInitializeCommand implements ApplicationCommand {
     }
 
 
+    def mvBeapiFiles(){
+
+    }
+
+    def mvIoStateFiles(){
+
+    }
 
 
 }

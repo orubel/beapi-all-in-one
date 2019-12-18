@@ -184,13 +184,7 @@ dependencies {
 
 task finalize {
     doLast {
-        println "$projectDir/mySubDir"
-        // workingDir "$projectDir/mySubDir"
-        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-            commandLine 'cmd', '/c', 'mycommand'
-        } else {
-            commandLine 'sh', '-c', 'mycommand'
-        }
+
     }
 }
 

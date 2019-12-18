@@ -78,6 +78,6 @@ server:
     port: 8443                                  # The port to listen on
     ssl:
         enabled: true                           # Activate HTTPS mode on the server port
-        keyStore: /home/owen/.ssh/keystore.jks         # e.g. /etc/tomcat7/keystore/tomcat.keystore
+        keyStore: /home/yourhomedirectory/.ssh/keystore.jks         # e.g. /etc/tomcat7/keystore/tomcat.keystore
         keyStorePassword: yabbadabbadoo      # e.g. changeit
         keyAlias: selfsigned                   # e.g. tomcat

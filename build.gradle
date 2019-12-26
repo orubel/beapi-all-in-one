@@ -38,8 +38,8 @@ plugins {
 
 
 def appVersion = project.buildVersion
-def patch = (System.getenv('BUILD_NUMBER'))?System.getenv('BUILD_NUMBER'):'0'
-version = "${appVersion}.${patch}"
+def patchVersion = project.patchVersion
+version = "${appVersion}.${patchVersion}"
 
 group "@grails.app.group@"
 

@@ -13,7 +13,7 @@ class StatController {
 	HashMap show() {
 		Integer time = System.currentTimeMillis()
 		Integer day = (Integer) time/((1000*60*60*24)+1)
-		switch(params.type){
+		switch(params.eventType){
 			case 3:
 				// 12 months
 				def year = getStatsByYear()
@@ -36,14 +36,14 @@ class StatController {
 			default:
 				// 1 day
 				def today = getStatsByDay()
-				List hrs = ['1AM','2AM','3AM','4AM','5AM','6AM','7AM','8AM','9AM','10AM','11AM','12AM','1PM','2PM','3PM','4PM','5PM','6PM','7PM','8PM','9PM','10PM','11PM','12PM']
-				LinkedHashMap apiTotals = ['1AM':0,'2AM':0,'3AM':0,'4AM':0,'5AM':0,'6AM':0,'7AM':0,'8AM':0,'9AM':0,'10AM':0,'11AM':0,'12AM':0,'1PM':0,'2PM':0,'3PM':0,'4PM':0,'5PM':0,'6PM':0,'7PM':0,'8PM':0,'9PM':0,'10PM':0,'11PM':0,'12PM':0]
 				LinkedHashMap codeTotals = [:]
 				LinkedHashMap userTotals = [:]
 
-				today.each() { it ->
-					def thisStat = formatDomainObject(it)
+				println(today)
+				//today.each() { k,v ->
 
+					//def thisStat = formatDomainObject(it)
+/*
 					Timestamp tstamp = new Timestamp(thisStat.timestamp)
 					Date date = new Date(tstamp.getTime())
 					SimpleDateFormat sdf = new SimpleDateFormat("kk")
@@ -69,9 +69,11 @@ class StatController {
 					}else{
 						userTotals["${user.username}"] += 1
 					}
-				}
 
-				return [stat:['apiTotals':apiTotals,'codeTotals':codeTotals,'userTotals':userTotals]]
+ */
+				//}
+
+				return [stat:today]
 		}
 	}
 
@@ -116,10 +118,19 @@ class StatController {
 		return stats
 	}
 
-	List getStatsByDay(){
-		long yesterday = getYesterday()
-		long today = yesterday - (1000*60*60*24)
-		List stats = Stat.findAllByTimestampGreaterThanEquals(yesterday)
+	ArrayList getStatsByDay(){
+		ArrayList stats = []
+		// init hours
+		for(int i=0;i<=23;i++){
+			stats[i] = ['time':"${i+1}",'count':'0']
+		}
+
+		// get data
+		ArrayList data = Stat.executeQuery("select hour,count(id),hour from Stat group by hour order by hour ASC")
+		data.each(){it ->
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}"]
+		}
+		println("post_init:"+stats)
 		return stats
 	}
 

@@ -3,7 +3,7 @@ package net.nosegrind.apiframework
 class PersonController{
 	
 	def springSecurityService
-
+	def traceService
 
 	HashMap list() {
 		if(isSuperuser()){
@@ -15,6 +15,7 @@ class PersonController{
 
 	LinkedHashMap show(){
 		try{
+			traceService.startTrace('PersonController','show')
 			Person user = new Person()
 			if(isSuperuser() && params?.id){
 				user = Person.get(params.id.toLong())
@@ -24,8 +25,10 @@ class PersonController{
 				//user = springSecurityService.getCurrentUser()
 			}
 			if(user){
+				traceService.endTrace('PersonController','show')
 				return [person: user]
 			}else{
+				traceService.endTrace('PersonController','show')
 				render(status: 500,text:"Id (${params.id})does not match record in database.")
 			}
 

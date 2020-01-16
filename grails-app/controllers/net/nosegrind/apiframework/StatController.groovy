@@ -13,67 +13,23 @@ class StatController {
 	HashMap show() {
 		Integer time = System.currentTimeMillis()
 		Integer day = (Integer) time/((1000*60*60*24)+1)
-		switch(params.eventType){
-			case 3:
+		switch(params.type){
+			case '2':
 				// 12 months
 				def year = getStatsByYear()
-				println("thisyear")
-				return [stats:year]
+				return [stat:year]
 				break
-			case 2:
-				// 4 weeks / 1 month
-				def week = getStatsByMonth()
-				println("thismonth")
-				return [stats:month]
+			case '1':
+				// data for entire month
+				def month = getStatsByMonth()
+				return [stat:month]
 				break
-			case 1:
-				// 7 days / 1 week
-				def week = getStatsByWeek()
-				println("thisweek")
-				return [stats:week]
-				break
-			case 0:
+			case '0':
 			default:
-				// 1 day
+				// data for all 24 hr periods
 				def today = getStatsByDay()
-				LinkedHashMap codeTotals = [:]
-				LinkedHashMap userTotals = [:]
-
-				println(today)
-				//today.each() { k,v ->
-
-					//def thisStat = formatDomainObject(it)
-/*
-					Timestamp tstamp = new Timestamp(thisStat.timestamp)
-					Date date = new Date(tstamp.getTime())
-					SimpleDateFormat sdf = new SimpleDateFormat("kk")
-					Integer hr = sdf.format(date).toInteger()
-
-					String authority = springSecurityService.principal.authorities*.authority[0]
-
-					if(apiTotals["${hrs[hr]}"]==null) {
-						apiTotals["${hrs[hr]}"] = 1
-					}else{
-						apiTotals["${hrs[hr]}"] += 1
-					}
-
-					if(codeTotals["${thisStat.code}"]==null){
-						codeTotals["${thisStat.code}"] = 1
-					}else{
-						codeTotals["${thisStat.code}"] += 1
-					}
-
-					Person user = Person.get(thisStat.user.toLong())
-					if(userTotals["${user.username}"]==null){
-						userTotals["${user.username}"] = 1
-					}else{
-						userTotals["${user.username}"] += 1
-					}
-
- */
-				//}
-
 				return [stat:today]
+				break
 		}
 	}
 
@@ -102,35 +58,44 @@ class StatController {
 		return ldow
 	}
 
-	public long getYesterday() {
-		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
-		c.set(Calendar.HOUR_OF_DAY, 0)
-		c.set(Calendar.MINUTE, 0)
-		c.set(Calendar.SECOND, 0)
-		c.set(Calendar.MILLISECOND, 0)
-		long yesterday = c.getTimeInMillis() / 1000
-		return yesterday
-	}
-	LinkedHashMap getStatsByWeek(){
-		long fdow = getFDOW()
-		long ldow = getLDOW()
-		List stats = Stat.findByTimestampBetween(fdow, ldow)
-		return stats
-	}
-
 	ArrayList getStatsByDay(){
+		Calendar cal = Calendar.getInstance();
+		Short dy = cal.get(Calendar.DAY_OF_MONTH);
+		Short mn = cal.get(Calendar.MONTH)
+		Long yr = cal.get(Calendar.YEAR);
+
 		ArrayList stats = []
 		// init hours
 		for(int i=0;i<=23;i++){
-			stats[i] = ['time':"${i+1}",'count':'0']
+			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null"]
 		}
 
 		// get data
-		ArrayList data = Stat.executeQuery("select hour,count(id),hour from Stat group by hour order by hour ASC")
+		ArrayList data = Stat.executeQuery("select S.hour,count(S.uri),S.uri,P.username from Stat S join S.user P where S.day=? and S.month=? and S.year=? group by S.hour order by S.hour ASC",[dy,mn,yr])
 		data.each(){it ->
-			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}"]
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}"]
 		}
-		println("post_init:"+stats)
+
+		return stats
+	}
+
+	ArrayList getStatsByMonth(){
+		ArrayList stats = []
+		Calendar cal = Calendar.getInstance();
+		Short ldom = cal.getActualMaximum(Calendar.DATE)
+		Short mn = cal.get(Calendar.MONTH)
+		Long yr = cal.get(Calendar.YEAR);
+
+		// init hours
+		for(int i=0;i<=(ldom-1);i++){
+			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null"]
+		}
+
+		// get data
+		ArrayList data = Stat.executeQuery("select S.day,count(S.uri),S.uri,P.username from Stat S join S.user P where S.day>=1 and S.day<=? and S.month=? and S.year=? group by S.day order by S.day ASC",[ldom,mn,yr])
+		data.each(){it ->
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}"]
+		}
 		return stats
 	}
 

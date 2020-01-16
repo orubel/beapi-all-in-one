@@ -2,7 +2,9 @@ package net.nosegrind.apiframework
 
 class Stat {
 
-	Long user
+	static belongsTo = [Person]
+
+	Person user
 	Integer code
 	String uri
 	Short hour

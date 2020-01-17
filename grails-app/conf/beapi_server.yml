@@ -81,3 +81,4 @@ server:
         keyStore: /home/yourhomedirectory/.ssh/keystore.jks         # e.g. /etc/tomcat7/keystore/tomcat.keystore
         keyStorePassword: yabbadabbadoo      # e.g. changeit
         keyAlias: selfsigned                   # e.g. tomcat
+    instances: ['http://localhost:8080']

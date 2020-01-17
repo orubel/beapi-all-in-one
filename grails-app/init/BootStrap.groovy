@@ -26,13 +26,13 @@ class BootStrap {
         // only instantiate if this server is 'master'; check config value
         //server = Server.createTcpServer(args).start()
 
-        //String url = Holders.config.grails.serverURL
-        //Integer cores = grailsApplication.config.apitoolkit.procCores
-        //Arch architecture = Arch.findByUrl(url)
-        //if(!architecture) {
-        //    architecture = new Arch(url:url,cores:cores)
-        //    architecture.save(flush:true,failOnError:true)
-        //}
+        String url = Holders.config.grails.serverURL
+        Integer cores = grailsApplication.config.apitoolkit.procCores
+        Arch architecture = Arch.findByUrl(url)
+        if(!architecture) {
+            architecture = new Arch(url:url)
+            architecture.save(flush:true,failOnError:true)
+        }
         
         def networkRoles = grailsApplication.config.apitoolkit.networkRoles
         networkRoles.each(){ k, v ->

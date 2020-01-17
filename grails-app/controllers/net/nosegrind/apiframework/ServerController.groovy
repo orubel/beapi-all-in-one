@@ -13,8 +13,7 @@
  */
 package net.nosegrind.apiframework
 
-import net.nosegrind.apiframework.PingService
-
+//import net.nosegrind.apiframework.PingService
 
 /**
  * Provides callbacks for the server; mainly used for webhooks
@@ -30,9 +29,19 @@ class ServerController {
 
     def pingService
 
+    HashMap getServers(){
+        ArrayList list = []
+        ArrayList archs = Arch.list()
+        archs.each(){
+            list.add(it.url)
+        }
+
+        return [server: [servers:list]]
+    }
+
     HashMap pingServers(){
-        HashMap list
-        Arch archs = Arch.list()
+        ArrayList list =[]
+        ArrayList archs = Arch.list()
         archs.each(){
             list.add(it.url)
         }
@@ -42,7 +51,7 @@ class ServerController {
     }
 
     HashMap ping(){
-        return [server:[ping:true]]
+        return [server: [servers:true]]
     }
 
 }

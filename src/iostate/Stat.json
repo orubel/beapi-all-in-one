@@ -20,7 +20,7 @@ net.nosegrind.IOState
     "NETWORKGRP": "private",
     "VALUES": {
 	"type": {
-            "type": "Long",
+            "type": "String",
             "description":"Sort Order Statistic",
 	    "mockData":"0"
         },

@@ -77,13 +77,20 @@ class StatController {
 		ArrayList stats = []
 		// init hours
 		for(int i=0;i<=23;i++){
-			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null"]
+			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null",'date':"null",'clock':"null"]
 		}
 
 		// get data
-		ArrayList data = Stat.executeQuery("select S.hour,count(S.uri),S.uri,P.username from Stat S join S.user P where S.day=? and S.month=? and S.year=? group by S.hour order by S.hour ASC",[dy,mn,yr])
+		ArrayList data = Stat.executeQuery("select S.hour,count(S.uri),S.uri,P.username,S.day,S.month,S.year,S.timestamp from Stat S join S.user P where S.day=? and S.month=? and S.year=? group by S.hour order by S.hour,S.timestamp ASC",[dy,mn,yr])
 		data.each(){it ->
-			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}"]
+			Timestamp stamp = new Timestamp(it[7]);
+			Date date = new Date(stamp.getTime());
+			SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a");
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+			String formattedDate = sdf.format(date);
+
+			String date2 = it[4]+"/"+it[5]+"/"+it[6]
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}",'date':"${date2}",'clock':"${formattedDate}"]
 		}
 
 		return stats
@@ -98,13 +105,20 @@ class StatController {
 
 		// init hours
 		for(int i=0;i<=(ldom-1);i++){
-			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null"]
+			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null",'date':"null",'clock':"null"]
 		}
 
 		// get data
-		ArrayList data = Stat.executeQuery("select S.day,count(S.uri),S.uri,P.username from Stat S join S.user P where S.day>=1 and S.day<=? and S.month=? and S.year=? group by S.day order by S.day ASC",[ldom,mn,yr])
+		ArrayList data = Stat.executeQuery("select S.day,count(S.uri),S.uri,P.username,S.day,S.month,S.year,S.timestamp from Stat S join S.user P where S.day>=1 and S.day<=? and S.month=? and S.year=? group by S.day order by S.day,S.timestamp ASC",[ldom,mn,yr])
 		data.each(){it ->
-			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}"]
+			Timestamp stamp = new Timestamp(it[7]);
+			Date date = new Date(stamp.getTime());
+			SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a");
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+			String formattedDate = sdf.format(date);
+
+			String date2 = it[4]+"/"+it[5]+"/"+it[6]
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}",'date':"${date2}",'clock':"${formattedDate}"]
 		}
 		return stats
 	}
@@ -118,13 +132,20 @@ class StatController {
 		ArrayList stats = []
 		// init hours
 		for(int i=0;i<=23;i++){
-			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null"]
+			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null",'date':"null",'clock':"null"]
 		}
 
 		// get data
-		ArrayList data = Stat.executeQuery("select S.hour,count(S.uri),S.uri,P.username from Stat S join S.user P where S.year=? group by S.hour order by S.hour ASC",[yr])
+		ArrayList data = Stat.executeQuery("select S.hour,count(S.uri),S.uri,P.username,S.day,S.month,S.year,S.timestamp from Stat S join S.user P where S.year=? group by S.hour order by S.hour,S.timestamp ASC",[yr])
 		data.each(){it ->
-			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}"]
+			Timestamp stamp = new Timestamp(it[7]);
+			Date date = new Date(stamp.getTime());
+			SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a");
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+			String formattedDate = sdf.format(date);
+
+			String date2 = it[4]+"/"+it[5]+"/"+it[6]
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}",'date':"${date2}",'clock':"${formattedDate}"]
 		}
 
 		return stats
@@ -139,13 +160,20 @@ class StatController {
 
 		// init hours
 		for(int i=0;i<=(ldom-1);i++){
-			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null"]
+			stats[i] = ['time':"${i+1}",'count':'0','uri':"null",'username':"null",'date':"null",'clock':"null"]
 		}
 
 		// get data
-		ArrayList data = Stat.executeQuery("select S.day,count(S.uri),S.uri,P.username from Stat S join S.user P where S.year=? group by S.day order by S.day ASC",[yr])
+		ArrayList data = Stat.executeQuery("select S.day,count(S.uri),S.uri,P.username,S.day,S.month,S.year,S.timestamp from Stat S join S.user P where S.year=? group by S.day order by S.day,S.timestamp ASC",[yr])
 		data.each(){it ->
-			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}"]
+			Timestamp stamp = new Timestamp(it[7]);
+			Date date = new Date(stamp.getTime());
+			SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a");
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+			String formattedDate = sdf.format(date);
+
+			String date2 = it[4]+"/"+it[5]+"/"+it[6]
+			stats[it[0]-1] = ['time':"${it[0]}",'count':"${it[1]}",'uri':"${it[2]}",'username':"${it[3]}",'date':"${date2}",'clock':"${formattedDate}"]
 		}
 		return stats
 	}

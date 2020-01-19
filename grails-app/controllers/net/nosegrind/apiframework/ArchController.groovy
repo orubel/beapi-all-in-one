@@ -25,7 +25,7 @@ package net.nosegrind.apiframework
  * @see ChainInterceptor
  *
  */
-class ServerController {
+class ArchController {
 
     def pingService
 

@@ -1,0 +1,78 @@
+/* JSON API Object */
+/* ****************************************************************************
+ * Copyright 2014 Owen Rubel
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed is distributed on an "AS IS" BASIS,WITHOUT WARRANTIES 
+ * OR CONDITIONS OF ANY KIND, either express or implied.
+ *****************************************************************************/
+// NOTES
+
+/* 'permitAll' needs to always come first so other roles can make use of it
+* as they come afterward
+
+net.nosegrind.IOState
+*/
+
+
+{
+	"NAME":"arch",
+	"NETWORKGRP": "private",
+	"VALUES": {
+		"servers":{
+			"type": "Map",
+			"description":"List of Servers",
+			"mockData":"[:]"
+		}
+	},
+	"CURRENTSTABLE": "1",
+	"VERSION": {
+		"1": {
+			"DEFAULTACTION":"pingServers",
+			"URI": {
+				"getServers": {
+					"METHOD":"GET",
+					"DESCRIPTION":"Retrieve URL of all available instances",
+					"ROLES":{
+						"BATCH":["ROLE_ADMIN"],
+						"HOOK":["ROLE_ADMIN"]
+					},
+					"REQUEST": {
+						"permitAll":[]
+					},
+					"RESPONSE": {
+						"permitAll":["servers"]
+					}
+				},
+				"pingServers": {
+					"METHOD":"GET",
+					"DESCRIPTION":"Ping all available instances",
+					"ROLES":{
+						"BATCH":["ROLE_ADMIN"],
+						"HOOK":["ROLE_ADMIN"]
+					},
+					"REQUEST": {
+						"permitAll":[]
+					},
+					"RESPONSE": {
+						"permitAll":["servers"]
+					}
+				},
+				"ping": {
+					"METHOD":"GET",
+					"DESCRIPTION":"Ping",
+					"ROLES":{
+						"BATCH":["ROLE_ADMIN"],
+						"HOOK":["ROLE_ADMIN"]
+					},
+					"REQUEST": {
+						"permitAll":[]
+					},
+					"RESPONSE": {
+						"permitAll":["servers"]
+					}
+				}
+			}
+		}
+	}
+}

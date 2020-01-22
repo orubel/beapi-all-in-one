@@ -52,20 +52,21 @@
 	"VERSION": {
 		"1": {
 		    "DEFAULTACTION":"update",
-	            "update": {
-	            	"METHOD":"POST",
-	            	"DESCRIPTION":"Update IOState",
-	            	"ROLES": {
-	            	    "BATCH":["ROLE_ADMIN"]
-			},
-	                "REQUEST": {
-	                    "permitAll":["name"]
-	                },
-	                "RESPONSE": {
-	                    "permitAll":["name","cacheversion"]
+                        "URI": {
+	                    "update": {
+	            	        "METHOD":"POST",
+	            	        "DESCRIPTION":"Update IOState",
+	            	        "ROLES": {
+	            	            "BATCH":["ROLE_ADMIN"]
+			        },
+	                        "REQUEST": {
+	                            "permitAll":["name"]
+	                        },
+	                        "RESPONSE": {
+	                            "permitAll":["name","cacheversion"]
+	                        }
+	                    }
 	                }
-	            }
-	        }
-		}
+		 }
 	}
 }

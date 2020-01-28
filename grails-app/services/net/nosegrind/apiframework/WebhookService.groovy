@@ -20,10 +20,11 @@ class WebhookService {
     }
 
     private boolean send(Map data, String state, String service) {
+        String className = 'net.nosegrind.apiframework.Hook'
+        Class hookDomain = grailsApplication.getDomainClass(className).clazz
+        def hooks = hookDomain.findAll("from Hook where service=?",[service])
 
-        def hooks = grailsApplication.getClassForName(grailsApplication.config.webhook.domain).findAll("from Webhook where service='${service}'")
-
-        hooks.each { hook ->
+        hooks.each(){ hook ->
             String format = hook.format.toLowerCase()
             if(hook.attempts>=grailsApplication.config.webhook.attempts){
                 data = 	[message:'Number of attempts exceeded. Please reset webhook via web interface']

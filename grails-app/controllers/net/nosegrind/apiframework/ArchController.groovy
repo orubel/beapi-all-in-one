@@ -29,6 +29,12 @@ class ArchController {
 
     def pingService
 
+    HashMap getMaster(){
+        LinkedHashMap list = [:]
+        Arch archs = Arch.findWhere(master: true)
+        return [server: archs]
+    }
+
     HashMap getServers(){
         ArrayList list = []
         ArrayList archs = Arch.list()

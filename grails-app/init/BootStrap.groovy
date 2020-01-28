@@ -28,9 +28,10 @@ class BootStrap {
 
         String url = Holders.config.grails.serverURL
         Integer cores = grailsApplication.config.apitoolkit.procCores
+        Boolean master = (grailsApplication.config.apitoolkit.serverType)? true : null
         Arch architecture = Arch.findByUrl(url)
         if(!architecture) {
-            architecture = new Arch(url:url)
+            architecture = new Arch(url:url, master:master)
             architecture.save(flush:true,failOnError:true)
         }
         

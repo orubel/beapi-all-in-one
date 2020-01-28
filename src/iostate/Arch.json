@@ -30,6 +30,19 @@ net.nosegrind.IOState
 		"1": {
 			"DEFAULTACTION":"pingServers",
 			"URI": {
+				"getMaster": {
+					"METHOD":"GET",
+					"DESCRIPTION":"Retrieve URL of MASTER instance",
+					"ROLES":{
+						"BATCH":["ROLE_ADMIN"]
+					},
+					"REQUEST": {
+						"permitAll":[]
+					},
+					"RESPONSE": {
+						"permitAll":["servers"]
+					}
+				},
 				"getServers": {
 					"METHOD":"GET",
 					"DESCRIPTION":"Retrieve URL of all available instances",

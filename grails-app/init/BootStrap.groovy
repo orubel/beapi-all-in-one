@@ -74,6 +74,34 @@ class BootStrap {
             status.isCompleted()
         }
 
+        // bootstrap test user
+        Person user2 = Person.findByUsername("${grailsApplication.config.test.login}")
+        PersonRole.withTransaction { status ->
+            Role userRole = Role.findByAuthority("ROLE_USER")
+
+            if (!user2?.id) {
+                user2 = new Person(username: "${grailsApplication.config.test.login}", password: "${grailsApplication.config.test.password}", email: "${grailsApplication.config.test.email}")
+
+                if (!user2.save(flush: true)) {
+                    user2.errors.allErrors.each { println it }
+                }
+            } else {
+                // user exists
+                if (!passwordEncoder.isPasswordValid(user2.password, grailsApplication.config.test.password, null)) {
+                    log.error "Error: Bootstrapped Root Password was changed in config. Please update"
+                }
+            }
+
+            if (!user2?.authorities?.contains(userRole)) {
+                PersonRole pRole = new PersonRole(user2, userRole)
+                pRole.save(flush: true, failOnError: true)
+            } else {
+                // role exists
+            }
+
+            status.isCompleted()
+        }
+
     }
 
     def destroy = {

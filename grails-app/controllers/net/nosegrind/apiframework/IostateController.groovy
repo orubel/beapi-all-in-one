@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse
 import org.grails.web.json.JSONObject
 import grails.converters.JSON
 import grails.converters.XML
+import grails.web.servlet.mvc.GrailsHttpSession
 
 class IostateController {
 
@@ -24,7 +25,11 @@ class IostateController {
 			}
 			
 			def cache = apiCacheService.getApiCache(json.NAME)
+
 			LinkedHashMap model = [name:cache.name,cacheversion:cache.cacheversion]
+
+			session['cache'] = cache
+
 			webhookService.postData('Iostate', model,'update')
 			return ['iostate':model]
 		}

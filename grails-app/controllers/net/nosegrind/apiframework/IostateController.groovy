@@ -16,7 +16,7 @@ class IostateController {
 
 	LinkedHashMap update() {
 		if(isSuperuser()){
-			String content = new String(params.iostate.getBytes(),"UTF-8")
+			String content = new String(params.filename.getBytes(),"UTF-8")
 			JSONObject json = JSON.parse(content)
 
 			if(!apiObjectService.parseFile(json)){

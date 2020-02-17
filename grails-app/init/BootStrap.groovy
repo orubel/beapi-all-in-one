@@ -96,7 +96,7 @@ class BootStrap {
                     log.error "Error: Bootstrapped Root Password was changed in config. Please update"
                 }
             }
-            
+
             status.isCompleted()
         }
 

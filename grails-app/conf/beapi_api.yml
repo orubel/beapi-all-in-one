@@ -38,3 +38,7 @@ root:
     login: admin
     password: admin_password
     email: youremail@yourdomain.com
+test:
+    login: test
+    password: pasword1234
+    email: test@yourdomain.com

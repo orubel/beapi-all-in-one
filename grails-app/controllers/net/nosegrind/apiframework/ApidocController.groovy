@@ -26,7 +26,13 @@ class ApidocController {
 
 					if (!['deprecated', 'defaultAction','currentStable','testOrder', 'testUser'].contains(k)) {
 
-						if(checkAuth(cache[version][k]['roles']) || cache[version][k]['roles'].contains('permitAll')) {
+						if(checkAuth(cache[version][k]['roles'])){
+							if (!docs["${it}"]){ // avoid duplicates
+								docs["${it}"] = [:]
+							}
+
+							docs["${it}"]["${k}"] = v['doc']
+						}else if(cache[version][k]['roles'].contains('permitAll')){
 							if (!docs["${it}"]){ // avoid duplicates
 								docs["${it}"] = [:]
 							}
@@ -34,10 +40,11 @@ class ApidocController {
 							docs["${it}"]["${k}"] = v['doc']
 						}
 					}
-
 				}
 			}
 		}
+
+
 
 		return ['apidoc':docs]
 	}

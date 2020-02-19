@@ -84,11 +84,6 @@ class BootStrap {
 
                 if (!user2.save(flush: true)) {
                     user2.errors.allErrors.each { println it }
-                }else if (!user2?.authorities?.contains(userRole)) {
-                    PersonRole pRole = new PersonRole(user2, userRole)
-                    pRole.save(flush: true, failOnError: true)
-                } else {
-                    println("role exists")
                 }
             } else {
                 // user exists
@@ -97,6 +92,13 @@ class BootStrap {
                 }
             }
 
+            if (!user2?.authorities?.contains(userRole)) {
+                PersonRole pRole = new PersonRole(user2, userRole)
+                pRole.save(flush: true, failOnError: true)
+            } else {
+                //println("role exists")
+            }
+            
             status.isCompleted()
         }
 

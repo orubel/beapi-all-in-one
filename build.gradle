@@ -141,8 +141,13 @@ dependencies {
     provided "org.grails.plugins:hibernate5"
     provided "org.hibernate:hibernate-core:5.1.5.Final"
     provided "org.hibernate:hibernate-ehcache:5.1.5.Final"
-    runtime 'mysql:mysql-connector-java:5.1.29'
     provided("com.h2database:h2")
+
+    /**
+     * DB Connector
+     */
+    runtime 'mysql:mysql-connector-java:5.1.29'
+
 
     /**
      * Security block

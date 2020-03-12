@@ -79,15 +79,19 @@ environments:
             url: "jdbc:mysql://localhost:3306/beapi"
             dbCreate: update
             properties:
+                   # logAbandoned: true
                    jmxEnabled: true
-                   initialSize: 5
-                   maxActive: 50
-                   minIdle: 5
-                   maxIdle: 25
+                   initialSize: 10
+                   minIdle: 15
+                   maxIdle: 50
                    maxWait: 10000
-                   maxAge: 600000
+                   maxAge: 500000
+                   maxActive: 500
+                   # maxActive: 50
                    timeBetweenEvictionRunsMillis: 5000
                    minEvictableIdleTimeMillis: 60000
+                   removeAbandoned: true
+                   removeAbandonedTimeout: 20000
                    validationQuery: "SELECT 1"
                    validationQueryTimeout: 3
                    validationInterval: 15000

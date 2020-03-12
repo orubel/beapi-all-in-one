@@ -11,13 +11,10 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
-
-        // for installing local
-        //maven { url "${System.getProperty('user.home')}/.m2/repository" }
-        // bintray
-        maven { url "http://dl.bintray.com/orubel/plugins" }
+        maven { url "${System.getProperty('user.home')}/.m2/repository" }
+        maven { url "https://dl.bintray.com/orubel/plugins" }
         jcenter {
-            url "http://jcenter.bintray.com/"
+            url "https://jcenter.bintray.com/"
         }
     }
     dependencies {
@@ -63,10 +60,10 @@ repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
     maven { url "${System.getProperty('user.home')}/.m2/repository/" }
-    maven { url "http://dl.bintray.com/orubel/plugins" }
+    maven { url "https://dl.bintray.com/orubel/plugins" }
     //maven { url "http://maven.it.su.se/it.su.se/maven2/" }
     jcenter {
-        url "http://jcenter.bintray.com/"
+        url "https://jcenter.bintray.com/"
     }
 }
 

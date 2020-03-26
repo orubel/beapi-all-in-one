@@ -32,6 +32,7 @@ class BatchFunctionalSpec extends Specification {
     @Shared String testDomain
     @Shared List currentId = []
     @Shared String appVersion = "b${Metadata.current.getProperty(Metadata.APPLICATION_VERSION, String.class)}"
+    @Shared String cert = '/home/owen/.ssh/'
 
     void "login and get token"(){
         setup:"logging in"
@@ -40,7 +41,7 @@ class BatchFunctionalSpec extends Specification {
             String password = Holders.grailsApplication.config.root.password
             String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
 
-            String url = "curl -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' ${this.testDomain}${loginUri}"
+            String url = "curl -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' --cacert '${cert}' ${this.testDomain}${loginUri}"
             def proc = ['bash','-c',url].execute();
             proc.waitFor()
             def info = new JsonSlurper().parseText(proc.text)
@@ -66,7 +67,7 @@ class BatchFunctionalSpec extends Specification {
             String action = 'create'
             String data = "{'combine':true,'batch': [{'name': 'test1'},{'name': 'test2'},{'name': 'test3'},{'name': 'test4'},{'name': 'test5'},{'name': 'test6'}]}"
             def info
-            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${this.controller}/${action}"].execute();
+            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}","--cacert","${cert}", "${this.testDomain}/${this.appVersion}/${this.controller}/${action}"].execute();
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -95,7 +96,7 @@ class BatchFunctionalSpec extends Specification {
             String action = 'create'
             String data = "{'batch': [{'name': 'test1'},{'name': 'test2'},{'name': 'test3'},{'name': 'test4'},{'name': 'test5'},{'name': 'test6'}]}"
             def info
-            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${this.controller}/${action}"].execute();
+            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}","--cacert","${cert}", "${this.testDomain}/${this.appVersion}/${this.controller}/${action}"].execute();
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -134,7 +135,7 @@ class BatchFunctionalSpec extends Specification {
             data += "]}"
 
             def info
-            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${this.controller}/show"].execute();
+            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}","--cacert","${cert}", "${this.testDomain}/${this.appVersion}/${this.controller}/show"].execute();
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -175,7 +176,7 @@ class BatchFunctionalSpec extends Specification {
             data += "]}"
 
             def info
-            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${this.controller}/delete"].execute();
+            def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "-d", "${data}","--cacert","${cert}", "${this.testDomain}/${this.appVersion}/${this.controller}/delete"].execute();
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)

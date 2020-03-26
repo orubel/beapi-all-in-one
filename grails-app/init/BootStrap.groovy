@@ -34,7 +34,7 @@ class BootStrap {
             architecture = new Arch(url:url, master:master)
             if (!architecture.save(flush: true,failOnError:true)) {
                 println('#### WARNING ####:  Bad URL for Instance *OR* Master may already exist; Check your beapi_api.yml file for this instance.')
-                System.exit(0)
+                // System.exit(0)
             }
         }
 

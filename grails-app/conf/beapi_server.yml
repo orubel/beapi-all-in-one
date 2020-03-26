@@ -34,7 +34,7 @@ environments:
             context-path: ''
             port: 8080
         grails:
-            serverURL: "http://test.nosegrind.net:8080"
+            serverURL: "https://test.nosegrind.net:8443"
         quartz:
             pluginEnabled: false
     development:
@@ -49,7 +49,7 @@ environments:
             context-path: ''
             port: 8080
         grails:
-            serverURL: "http://test.nosegrind.net:8080"
+            serverURL: "https://test.nosegrind.net:8443"
     production:
         webhookActive: false
         apiThrottle: false
@@ -62,7 +62,7 @@ environments:
             context-path: ''
             port: 8080
         grails:
-            serverURL: "http://test.nosegrind.net:8080"
+            serverURL: "https://test.nosegrind.net:8443"
 
 ---
 server:
@@ -75,10 +75,7 @@ server:
         compression: off
         compressableMimeTypes: application/json,text/json,application/xml,text/xml,text/plain
     use-forward-headers: true
-    port: 8443                                  # The port to listen on
+    port: 8080                                  # The port to listen on
     ssl:
-        enabled: true                           # Activate HTTPS mode on the server port
-        keyStore: /home/yourhomedirectory/.ssh/keystore.jks         # e.g. /etc/tomcat7/keystore/tomcat.keystore
-        keyStorePassword: yabbadabbadoo      # e.g. changeit
-        keyAlias: selfsigned                   # e.g. tomcat
+        enabled: false                           # Activate HTTPS mode on the server port
     instances: ['http://localhost:8080']

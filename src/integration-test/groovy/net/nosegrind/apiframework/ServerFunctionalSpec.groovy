@@ -32,6 +32,7 @@ class ServerFunctionalSpec extends Specification {
     @Shared String guestlogin = 'errtest'
     @Shared String guestpassword = 'testamundo'
     @Shared ArrayList servers = []
+    @Shared String cert = '/home/owen/.ssh/'
 
     void "login and get token"(){
         setup:"logging in"
@@ -40,7 +41,7 @@ class ServerFunctionalSpec extends Specification {
         String login = Holders.grailsApplication.config.root.login
         String password = Holders.grailsApplication.config.root.password
         String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
-        def proc = ["curl","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","-H", "Content-Type: application/json","--request","${METHOD}", "-d", "{\"username\":\"${login}\",\"password\":\"${password}\"}", "${this.testDomain}${loginUri}"].execute()
+        def proc = ["curl","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","-H", "Content-Type: application/json","--cacert","${cert}","--request","${METHOD}", "-d", "{\"username\":\"${login}\",\"password\":\"${password}\"}", "${this.testDomain}${loginUri}"].execute()
         proc.waitFor()
         def outputStream = new StringBuffer()
         def error = new StringWriter()
@@ -69,7 +70,7 @@ class ServerFunctionalSpec extends Specification {
         String action = 'getServers'
 
         def info
-        def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+        def proc = ["curl", "-H", "Content-Type: application/json","--cacert","${cert}", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
         proc.waitFor()
         def outputStream = new StringBuffer()
         def error = new StringWriter()
@@ -90,7 +91,7 @@ class ServerFunctionalSpec extends Specification {
 
         def info
 
-        def proc = ["curl", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+        def proc = ["curl", "-H", "Content-Type: application/json","--cacert","${cert}", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
         proc.waitFor()
         def outputStream = new StringBuffer()
         def error = new StringWriter()

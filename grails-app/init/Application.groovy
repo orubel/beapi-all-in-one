@@ -28,6 +28,7 @@ import org.springframework.core.io.DefaultResourceLoader
 import groovy.util.ConfigSlurper
 
 import org.apache.coyote.http2.Http2Protocol
+import org.apache.coyote.http11.Http11Nio2Protocol
 
 @EnableAutoConfiguration(exclude = [SecurityFilterAutoConfiguration,JtaAutoConfiguration])
 class Application extends GrailsAutoConfiguration implements EnvironmentAware,ExternalConfig {
@@ -37,24 +38,22 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware,Ex
     }
 
     // Add secondary connector for port 8080
-    @Bean
-    public EmbeddedServletContainerFactory servletContainer() {
-        TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory()
-        tomcat.addAdditionalTomcatConnectors(createConnector())
-        //tomcat.addContextValves(headerEncodingValve)
-        return tomcat
-    }
+    //@Bean
+    //public EmbeddedServletContainerFactory servletContainer() {
+    //    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory()
+    //    tomcat.addAdditionalTomcatConnectors(createConnector())
+    //    return tomcat
+    //}
 
-    // Add port 8080 and redirect to 8443
+
     private Connector createConnector() {
         try {
-            Connector connector = new Connector()
-            connector.setScheme("http")
-            connector.setPort(8080)
-            connector.setSecure(false)
+            Connector connector = new Connector();
+            connector.setPort(8080);
             connector.setRedirectPort(8443)
-            connector.addUpgradeProtocol(new Http2Protocol())
-            return connector
+            connector.setSecure(false);
+            connector.setScheme("http");
+            return connector;
         } catch (Throwable ex) {
             throw new IllegalStateException("Failed setting up Connector", ex)
         }

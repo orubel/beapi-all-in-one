@@ -2,22 +2,7 @@
     "NAME":"role",
     "NETWORKGRP": "private",
     "VALUES": {
-        "id": {
-            "key": "PRIMARY",
-            "type": "Long",
-            "description":"ID for Event",
-	    "mockData":""
-        },
-        "version": {
-            "type": "Long",
-            "description":"Version for Event",
-	    "mockData":"0"
-        },
-	"authority":{
-            "type": "String",
-            "description":"Roles",
-	    "mockData":"ROLE_TEST"
-	}
+        "net.nosegrind.apiframework.Role": ["*"]
     },
 	"CURRENTSTABLE": "1",
 	"VERSION": {

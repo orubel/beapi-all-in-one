@@ -23,9 +23,11 @@ class Person{
 
 	String username
 	String password
-	String firstName = 'null_fname'
-	String lastName = 'null_lname'
+	String uid
+	String firstName = 'null'
+	String lastName = 'null'
 	String email
+	boolean emailVerified=false
 	String oauthId
 	String oauthProvider
 	String avatarUrl
@@ -92,7 +94,6 @@ class Person{
 		hasBeforeUpdate = false
 	}
 
-
 	protected void encPassword() {
 		ApplicationContext ctx = Holders.grailsApplication.mainContext
 		def springSecurityService = ctx.getBean("springSecurityService")
@@ -112,6 +113,7 @@ class Person{
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		uid nullable: true
 		firstName(nullable:false)
 		lastName(nullable:false)
 		email(nullable:false,email:true, unique: true,maxSize:100)

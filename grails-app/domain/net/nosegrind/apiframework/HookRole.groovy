@@ -1,6 +1,7 @@
 package net.nosegrind.apiframework
 
 class HookRole {
+	static belongsTo = [Hook, Role]
 
 	Hook hook
 	Role role

@@ -1,24 +1,9 @@
 {
 	"NAME":"test",
         "NETWORKGRP": "private",
-	"VALUES": {
-		"id": {
-			"key": "PRIMARY",
-			"type": "Long",
-			"description":"ID for Event",
-			"mockData":"1"
-		},
-		"version": {
-			"type": "Long",
-			"description":"Version for Event",
-			"mockData":"0"
-		},
-		"name":{
-			"type": "String",
-			"description":"test Name",
-			"mockData":"mockTest"
-		}
-	},
+    "VALUES": {
+        "net.nosegrind.apiframework.Test": ["*"]
+    },
 	"CURRENTSTABLE": "1",
 	"VERSION": {
 		"1": {

@@ -48,11 +48,11 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware,Ex
 
     private Connector createConnector() {
         try {
-            Connector connector = new Connector();
-            connector.setPort(8080);
+            Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol")
+            connector.setScheme("http")
+            connector.setPort(8080)
+            connector.setSecure(false)
             connector.setRedirectPort(8443)
-            connector.setSecure(false);
-            connector.setScheme("http");
             return connector;
         } catch (Throwable ex) {
             throw new IllegalStateException("Failed setting up Connector", ex)

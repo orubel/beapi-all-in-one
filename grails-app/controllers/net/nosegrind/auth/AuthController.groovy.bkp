@@ -10,7 +10,7 @@ class AuthController {
     SpringSecuritySigninService springSecuritySigninService
 
     def signin(){
-        println("##SIGNIN##")
+
         GrailsOAuthService service = resolveService(params.provider)
         if (!service) {
             redirect(url: '/')

@@ -2,46 +2,7 @@
     "NAME":"hook",
     "NETWORKGRP": "public",
     "VALUES": {
-        "id": {
-            "type": "PKEY",
-            "description":"ID for Hook",
-	    "mockData":"1"
-        },
-        "version": {
-            "type": "Long",
-            "description":"Version for Updating Hook",
-	    "mockData":"0"
-        },
-        "user": {
-            "type": "FKEY",
-            "description":"User relationship",
-	    "mockData":"1"
-        },
-        "name": {
-            "type": "String",
-            "description":"Name of Hook",
-	    "mockData":"mockHook"
-        },
-        "url": {
-            "type": "String",
-            "description":"Subscribers Receiving URL for Hook",
-	    "mockData":"127.0.0.1:80/test"
-        },
-        "format": {
-            "type": "String",
-            "description":"JSON/XML",
-	    "mockData":"JSON"
-        },
-        "service": {
-            "type": "String",
-            "description":"Api Service being Subscribed to",
-	    "mockData":"mockEndpoint"
-        },
-        "authentication": {
-            "type": "String",
-            "description":"Token type",
-	    "mockData":"Bearer 23978ywe0fdi8h309u4ju0309je3r90f"
-        }
+        "net.nosegrind.apiframework.Hook": ["*"]
     },
 	"CURRENTSTABLE": "1",
 	"VERSION": {

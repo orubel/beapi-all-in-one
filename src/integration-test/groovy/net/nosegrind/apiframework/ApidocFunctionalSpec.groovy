@@ -34,7 +34,8 @@ class ApidocFunctionalSpec extends Specification {
     @Shared String guestdata = "{'username': 'apidoctest','password':'testamundo','email':'apidoc@guesttest.com','firstName':'Fred','lastName':'Flintstone'}"
     @Shared String guestlogin = 'apidoctest'
     @Shared String guestpassword = 'testamundo'
-    @Shared String cert = '/home/owen/.ssh/beapi.pem'
+    //@Shared String cert = '/home/owen/.ssh/beapi.pem'
+    @Shared String cert = null
 
     void "login and get token"(){
         setup:"logging in"
@@ -44,16 +45,19 @@ class ApidocFunctionalSpec extends Specification {
             String password = Holders.grailsApplication.config.root.password
 
             String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
-            def proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","-H", "Content-Type: application/json","--cacert","${cert}","--request","${METHOD}", "-d", "{\"username\":\"${login}\",\"password\":\"${password}\"}", "${this.testDomain}${loginUri}"].execute()
+
+            Object proc = null
+            if(cert) {
+                proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","-H", "Content-Type: application/json","--cacert","${cert}","--request","${METHOD}", "-d", "{\"username\":\"${login}\",\"password\":\"${password}\"}", "${this.testDomain}${loginUri}"].execute()
+            }else {
+                proc = ["curl", "-k", "-H", "Origin: http://localhost", "-H", "Access-Control-Request-Headers: Origin,X-Requested-With", "-H", "Content-Type: application/json", "--request", "${METHOD}", "-d", "{\"username\":\"${login}\",\"password\":\"${password}\"}", "${this.testDomain}${loginUri}"].execute()
+            }
+
             proc.waitFor()
             def outputStream = new StringBuffer()
             def error = new StringWriter()
             proc.waitForProcessOutput(outputStream, error)
             String output = outputStream.toString()
-
-            //ArrayList stdErr = error.toString().split( '> \n' )
-            //ArrayList response1 = stdErr[0].split("> ")
-            //ArrayList response2 = stdErr[1].split("< ")
 
             def info = new JsonSlurper().parseText(output)
 
@@ -71,7 +75,14 @@ class ApidocFunctionalSpec extends Specification {
             String METHOD = "POST"
             String controller = 'person'
             String action = 'create'
-            def proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","-H", "Content-Type: application/json","--cacert","${cert}", "-H", "Authorization: Bearer ${this.token}","--request","${METHOD}", "--verbose", "-d", "${this.guestdata}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+
+            def proc = null
+            if (cert) {
+                proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","-H", "Content-Type: application/json","--cacert","${cert}", "-H", "Authorization: Bearer ${this.token}","--request","${METHOD}", "--verbose", "-d", "${this.guestdata}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            } else {
+                proc = ["curl", "-k", "-H", "Origin: http://localhost", "-H", "Access-Control-Request-Headers: Origin,X-Requested-With", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "--request", "${METHOD}", "--verbose", "-d", "${this.guestdata}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }
+
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -92,7 +103,14 @@ class ApidocFunctionalSpec extends Specification {
             String controller = 'personRole'
             String action = 'create'
             String data = "{'personId': '${this.guestId}','roleId':'1'}"
-            def proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}","-H", "Content-Type: application/json","--cacert","${cert}", "-H", "Authorization: Bearer ${this.token}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+
+            def proc = null
+            if (cert) {
+                proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}","-H", "Content-Type: application/json","--cacert","${cert}", "-H", "Authorization: Bearer ${this.token}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }else {
+                proc = ["curl", "-k", "-H", "Origin: http://localhost", "-H", "Access-Control-Request-Headers: Origin,X-Requested-With", "--request", "${METHOD}", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "-d", "${data}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }
+
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -109,8 +127,14 @@ class ApidocFunctionalSpec extends Specification {
         setup:"logging in"
             String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
 
-            String url = "curl -k -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${this.guestlogin}\",\"password\":\"${this.guestpassword}\"}' --cacert '${cert}' ${this.testDomain}${loginUri}"
-            def proc = ['bash','-c',url].execute()
+            def proc = null
+            String url = null
+            if (cert) {
+                url = "curl -k -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${this.guestlogin}\",\"password\":\"${this.guestpassword}\"}' --cacert '${cert}' ${this.testDomain}${loginUri}"
+            }else {
+                url = "curl -k -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${this.guestlogin}\",\"password\":\"${this.guestpassword}\"}' ${this.testDomain}${loginUri}"
+            }
+            proc = ['bash','-c',url].execute()
             proc.waitFor()
             def info = new JsonSlurper().parseText(proc.text)
 
@@ -126,7 +150,14 @@ class ApidocFunctionalSpec extends Specification {
             String controller = 'apidoc'
             String action = 'show'
             def info = [:]
-            def proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}","-H","Content-Type: application/json","--cacert","${cert}","-H","Authorization: Bearer ${this.token}","${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+
+            def proc = null
+            if (cert) {
+                proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}","-H","Content-Type: application/json","--cacert","${cert}","-H","Authorization: Bearer ${this.token}","${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }else {
+                proc = ["curl", "-k", "-H", "Origin: http://localhost", "-H", "Access-Control-Request-Headers: Origin,X-Requested-With", "--request", "${METHOD}", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }
+
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -148,7 +179,14 @@ class ApidocFunctionalSpec extends Specification {
             String controller = 'apidoc'
             String action = 'show'
             def info = [:]
-            def proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}","-H","Content-Type: application/json","--cacert","${cert}","-H","Authorization: Bearer ${this.guestToken}","${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+
+            def proc = null
+            if (cert) {
+                proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}","-H","Content-Type: application/json","--cacert","${cert}","-H","Authorization: Bearer ${this.guestToken}","${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }else {
+                proc = ["curl", "-k", "-H", "Origin: http://localhost", "-H", "Access-Control-Request-Headers: Origin,X-Requested-With", "--request", "${METHOD}", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.guestToken}", "${this.testDomain}/${this.appVersion}/${controller}/${action}"].execute()
+            }
+
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
@@ -171,7 +209,14 @@ class ApidocFunctionalSpec extends Specification {
             String controller = 'person'
             String action = 'delete'
             LinkedHashMap info = [:]
-            def proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}", "-H","Content-Type: application/json","--cacert","${cert}","-H","Authorization: Bearer ${this.token}","${this.testDomain}/${this.appVersion}/${controller}/${action}?id=${this.guestId}"].execute()
+
+            def proc = null
+            if (cert) {
+                proc = ["curl","-k","-H","Origin: http://localhost","-H","Access-Control-Request-Headers: Origin,X-Requested-With","--request","${METHOD}", "-H","Content-Type: application/json","--cacert","${cert}","-H","Authorization: Bearer ${this.token}","${this.testDomain}/${this.appVersion}/${controller}/${action}?id=${this.guestId}"].execute()
+            }else {
+                proc = ["curl", "-k", "-H", "Origin: http://localhost", "-H", "Access-Control-Request-Headers: Origin,X-Requested-With", "--request", "${METHOD}", "-H", "Content-Type: application/json", "-H", "Authorization: Bearer ${this.token}", "${this.testDomain}/${this.appVersion}/${controller}/${action}?id=${this.guestId}"].execute()
+            }
+
             proc.waitFor()
             def outputStream = new StringBuffer()
             def error = new StringWriter()

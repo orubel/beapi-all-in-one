@@ -2,31 +2,7 @@
     "NAME":"arch",
     "NETWORKGRP": "private",
     "VALUES": {
-        "url":{
-            "type": "String",
-            "description":"URL of server (with port)",
-	    "mockData":"http://localhost:8080"
-        },
-        "master":{
-            "type": "Boolean",
-            "description":"Boolean determining if master server or not",
-	    "mockData":"true"
-        },
-        "hasCert":{
-            "type": "Boolean",
-            "description":"true : False",
-	    "mockData":"false"
-        },
-        "certExpiration":{
-            "type": "String",
-            "description":"Date of Cert Expiration",
-	    "mockData":"11-11-2030-11:11:11"
-        },
-	"servers":{
-            "type": "Map",
-            "description":"List of Servers",
-	    "mockData":"[:]"
-	}
+        "net.nosegrind.apiframework.Arch": ["*"]
     },
 	"CURRENTSTABLE": "1",
 	"VERSION": {

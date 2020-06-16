@@ -37,11 +37,14 @@ class BatchFunctionalSpec extends Specification {
     void "login and get token"(){
         setup:"logging in"
             this.testDomain = Holders.grailsApplication.config.environments.test.grails.serverURL
+        
             String login = Holders.grailsApplication.config.root.login
             String password = Holders.grailsApplication.config.root.password
             String loginUri = Holders.grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
 
             String url = "curl -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' --cacert '${cert}' ${this.testDomain}${loginUri}"
+            println(url)
+
             def proc = ['bash','-c',url].execute();
             proc.waitFor()
             def info = new JsonSlurper().parseText(proc.text)

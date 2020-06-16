@@ -1,15 +1,18 @@
-
+import groovy.json.JsonSlurper
 
 //import grails.plugins.GrailsPluginManager
 //import grails.plugins.GrailsPlugin
 import net.nosegrind.apiframework.Arch
 import net.nosegrind.apiframework.Person
 import net.nosegrind.apiframework.Role
+import net.nosegrind.apiframework.State
+import net.nosegrind.apiframework.Address
+import net.nosegrind.apiframework.Phone
 import net.nosegrind.apiframework.PersonRole
 import grails.util.Environment
 import grails.util.Holders
 import grails.gorm.transactions.Transactional
-
+import org.apache.commons.lang3.RandomStringUtils
 //import org.h2.tools.Server
 
 @Transactional('auth')
@@ -21,6 +24,7 @@ class BootStrap {
     def grailsApplication
     def springSecurityService
     def mockingService
+
 
     def init = { servletContext ->
         // Throttle
@@ -52,7 +56,71 @@ class BootStrap {
             }
         }
 
+<<<<<<< HEAD
          */
+=======
+        // import JSON data for DB import
+        /*
+        def inputFile = new File('/home/owen/workspace/lawhq/grails-app/conf/data/states.json')
+        def states = new JsonSlurper().parseText(inputFile.text)
+        states.each{ it ->
+
+            State st = State.findByCode("${it.code}")
+            if (!st?.id) {
+                st = new State(name: "${it.State}", abbrev: "${it.Abbrev}", code: "${it.Code}")
+
+                if (!st.save(flush: true)) {
+                    st.errors.allErrors.each { println it }
+                }
+            } else {
+                // user exists
+                    println "Error: State '"+it.State+"' already exists"
+            }
+        }
+
+        def inputFile = new File('/home/owen/workspace/lawhq/grails-app/conf/data/users.json')
+        def users = new JsonSlurper().parseText(inputFile.text)
+        users.each{ it ->
+
+            String email = it.email.toLowerCase()
+
+            String charset = (('A'..'Z') + ('0'..'9')).join()
+            Integer length = 9
+            String password = RandomStringUtils.random(length, charset.toCharArray())
+
+
+            String oauthProvider = (it.oauthProvider)?it.oauthProvider:null
+            boolean emailVerified = (it.emailVerified)?true:false
+            Person user = Person.findByEmail("${email}")
+
+            // PHONE
+            String temp = it.phone as String
+            String phNum = temp.replaceAll("/[^0-9 ]/", "");
+            Phone ph = Phone.findByPhone("${phNum}")
+            if (!ph?.id) {
+                ph = new Phone(user: "${user.id}", phone: "${phNum}", phoneType: "CELL", primary: "true")
+                if (!ph.save(flush: true)) {
+                    st.errors.allErrors.each { println it }
+                }
+            } else {
+                // user exists
+                println "Error: Phone '" + phNum + "' already exists"
+            }
+
+            // ADDRESS
+            State st = State.findByCode("${it.state.toUpperCase()}")
+            if(st) {
+                Address addr = new Address(user: "${user.id}", address1: "${it.address}", address2: "${it.address_addtnl}", city: "${it.city}", state: "${st.code}", zip: "${it.zip}")
+                if (!addr.save(flush: true)) {
+                    addr.errors.allErrors.each { println it }
+                }
+            }else{
+                println "Error: Bad State code : '${it.state}'"
+            }
+
+        }
+        */
+>>>>>>> e575d2c3e9091bce47f28ddcaa0356e1672b7553
 
         // bootstrap admin
         Person user = Person.findByUsername("${grailsApplication.config.root.login}")
@@ -112,7 +180,22 @@ class BootStrap {
             status.isCompleted()
         }
 
+<<<<<<< HEAD
+=======
     }
+
+    /*
+    def passGen(){
+        def key
+        String alphabet = (('A'..'N')+('P'..'Z')+('a'..'k')+('m'..'z')+('2'..'9')).join()
+        def length = 12
+        key = new Random().with {
+            (1..length).collect { alphabet[ nextInt( alphabet.length() ) ] }.join()
+        }
+        return key
+>>>>>>> e575d2c3e9091bce47f28ddcaa0356e1672b7553
+    }
+*/
 
     def destroy = {
 	    //server.stop()

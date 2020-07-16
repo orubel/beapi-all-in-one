@@ -2,8 +2,7 @@
     "NAME":"apidoc",
     "NETWORKGRP": "public",
     "VALUES": {
-        "*": {"type": "String","description":"*","mockData":"null"
-        }
+        "*": {"type": "String","description":"*","mockData":"null"}
     },
 	"CURRENTSTABLE": "1",
 	"VERSION": {

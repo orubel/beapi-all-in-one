@@ -11,7 +11,7 @@ class Hook {
 	Boolean isEnabled = true
 	Date dateCreated
 	Date lastModified = new Date()
-	
+
 	static constraints = {
 		user(nullable:false)
 		url(nullable:false)
@@ -24,4 +24,5 @@ class Hook {
 	static mapping = {
 		cache true
 	}
+
 }

@@ -2,7 +2,9 @@ package net.nosegrind.apiframework
 
 import grails.converters.JSON
 import grails.converters.XML
-import org.grails.validation.routines.UrlValidator
+//import org.grails.validation.routines.UrlValidator
+//import org.codehaus.groovy.grails.validation.routines.UrlValidator
+import org.apache.commons.validator.UrlValidator;
 
 class WebhookService {
 

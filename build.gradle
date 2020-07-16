@@ -12,15 +12,19 @@ buildscript {
         mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
         maven { url "${System.getProperty('user.home')}/.m2/repository" }
-        //maven { url "https://dl.bintray.com/orubel/plugins" }
+        maven { url "${System.getProperty('user.home')}/.m2/repository" }
+        maven { url "https://dl.bintray.com/orubel/plugins" }
         jcenter {
             url "https://jcenter.bintray.com/"
+        }
+        flatDir {
+            dirs 'lib'
         }
     }
     dependencies {
         classpath group: 'org.codehaus.gpars', name: 'gpars', version: '1.2.1'
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
+        //classpath "org.grails.plugins:hibernate5:${gormVersion}"
 
         // for installing local
         classpath "org.grails.plugins:api-framework:${apiFrameworkVersion}"
@@ -29,6 +33,9 @@ buildscript {
 
 plugins {
     id "io.spring.dependency-management" version "0.6.0.RELEASE"
+    
+    // This plugin optimizes/exports to docker; built for springboot2
+    //id 'com.google.cloud.tools.jib' version '2.1.0'
     //id "com.jfrog.bintray" version "1.7.3"
 }
 
@@ -60,11 +67,11 @@ repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
     maven { url "${System.getProperty('user.home')}/.m2/repository/" }
+    maven { url "https://repo.spring.io/milestone"}
+    maven{ url "https://repo.spring.io/snapshot"}
     //maven { url "https://dl.bintray.com/orubel/plugins" }
     //maven { url "http://maven.it.su.se/it.su.se/maven2/" }
-    jcenter {
-        url "https://jcenter.bintray.com/"
-    }
+    jcenter { url "https://jcenter.bintray.com/" }
 }
 
 //dependencyManagement {
@@ -91,6 +98,10 @@ task wrapper(type: Wrapper) {
 
 
 dependencies {
+    // R2DBC - WOULD HAVE TO WRAP ALL CACHING AND REWRITE EVERYTHING; BETTER TO FORK TO SPRINGBOOT2
+    //compile 'io.r2dbc:r2dbc-spi:1.0.0.BUILD-SNAPSHOT'
+    //compile 'io.r2dbc:r2dbc-h2:1.0.0.BUILD-SNAPSHOT'
+
     /**
      * API Block
      */
@@ -106,7 +117,7 @@ dependencies {
     provided "org.grails:grails-plugin-i18n"
     provided "org.grails:grails-plugin-services"
     provided "org.grails:grails-plugin-interceptors"
-    provided 'org.grails.plugins:converters:3.3.1'
+    provided 'org.grails.plugins:converters:4.0.0'
     provided "org.grails.plugins:events"
     provided('org.grails:grails-web')
 
@@ -160,7 +171,13 @@ dependencies {
     compile('org.grails.plugins:spring-security-rest-gorm:2.0.0.M2'){
         exclude module: 'org.grails.plugins:spring-security-rest:2.0.0.M2'
     }
-    provided group: 'com.google.guava', name: 'guava', version: '14.0'
+
+    // GOOGLE PROVIDER BLOCK
+    provided 'com.google.http-client:google-http-client-jackson2:1.23.0'
+    provided 'com.google.api-client:google-api-client:1.30.4'
+    provided 'com.google.guava:guava:23.6-jre'
+    provided 'org.apache.httpcomponents:httpcore:4.4.8'
+
 
     /**
      * Test Block

@@ -2,26 +2,7 @@
     "NAME":"stat",
     "NETWORKGRP": "private",
     "VALUES": {
-	"type": {
-            "type": "String",
-            "description":"Sort Order Statistic",
-	    "mockData":"0"
-        },
-	"apiTotals":{
-            "type": "Map",
-            "description":"Statistics",
-	    "mockData":"[:]"
-	},
-	"codeTotals":{
-            "type": "Map",
-            "description":"Statistics",
-	    "mockData":"[:]"
-	},
-	"userTotals":{
-            "type": "Map",
-            "description":"Statistics",
-	    "mockData":"[:]"
-	}
+        "net.nosegrind.apiframework.Stat": ["*"]
     },
 	"CURRENTSTABLE": "1",
 	"VERSION": {

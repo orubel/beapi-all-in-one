@@ -2,25 +2,7 @@
     "NAME":"personRole",
     "NETWORKGRP": "public",
     "VALUES": {
-        "personId": {
-            "key": "FOREIGN",
-            "reference": "Person",
-            "type": "Long",
-            "description":"ID for Person",
-	    "mockData":""
-        },
-        "roleId": {
-            "key": "FOREIGN",
-            "reference": "Role",
-            "type": "Long",
-            "description":"ID for Role",
-	    "mockData":""
-        },
-        "version": {
-            "type": "Long",
-            "description":"Version for Event",
-	    "mockData":"0"
-        }
+        "net.nosegrind.apiframework.PersonRole": ["*"]
     },
 	"CURRENTSTABLE": "1",
 	"VERSION": {

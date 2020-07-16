@@ -59,10 +59,6 @@ class ApidocFunctionalSpec extends Specification {
             proc.waitForProcessOutput(outputStream, error)
             String output = outputStream.toString()
 
-            //ArrayList stdErr = error.toString().split( '> \n' )
-            //ArrayList response1 = stdErr[0].split("> ")
-            //ArrayList response2 = stdErr[1].split("< ")
-
             def info = new JsonSlurper().parseText(output)
 
         when:"set token"

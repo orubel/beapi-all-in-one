@@ -1,0 +1,89 @@
+{
+    "NAME":"personRole",
+    "NETWORKGRP": "public",
+    "VALUES": {
+        "personId": {
+            "key": "FOREIGN",
+            "reference": "Person",
+            "type": "Long",
+            "description":"ID for Person",
+	    "mockData":""
+        },
+        "roleId": {
+            "key": "FOREIGN",
+            "reference": "Role",
+            "type": "Long",
+            "description":"ID for Role",
+	    "mockData":""
+        },
+        "version": {
+            "type": "Long",
+            "description":"Version for Event",
+	    "mockData":"0"
+        }
+    },
+	"CURRENTSTABLE": "1",
+	"VERSION": {
+		"1": {
+			"DEFAULTACTION":"showByPerson",
+			"URI": {
+			    "create": {
+			     	"METHOD":"POST",
+			    	"DESCRIPTION":"Create new PersonRole",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["personId","roleId"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["roleId"]
+			        }
+			    },
+			    "showByPerson": {
+			     	"METHOD":"GET",
+			    	"DESCRIPTION":"Get Person by ID",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["personId"],
+			        },
+			        "RESPONSE": {
+			            "permitAll":["roleId"]
+			        }
+			    },
+			    "showByRole": {
+			     	"METHOD":"GET",
+			    	"DESCRIPTION":"Get Person by ID",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["roleId"],
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["personId"]
+			        }
+			    },
+			    "delete": {
+			     	"METHOD":"DELETE",
+			    	"DESCRIPTION":"Delete Person Roles",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["personId"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["personId"]
+			        }
+			    }
+			}
+		}
+	}
+}

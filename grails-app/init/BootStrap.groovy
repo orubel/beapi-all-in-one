@@ -1,15 +1,18 @@
-
+import groovy.json.JsonSlurper
 
 //import grails.plugins.GrailsPluginManager
 //import grails.plugins.GrailsPlugin
 import net.nosegrind.apiframework.Arch
 import net.nosegrind.apiframework.Person
 import net.nosegrind.apiframework.Role
+import net.nosegrind.apiframework.State
+import net.nosegrind.apiframework.Address
+import net.nosegrind.apiframework.Phone
 import net.nosegrind.apiframework.PersonRole
 import grails.util.Environment
 import grails.util.Holders
 import grails.gorm.transactions.Transactional
-
+import org.apache.commons.lang3.RandomStringUtils
 //import org.h2.tools.Server
 
 @Transactional('auth')
@@ -21,6 +24,7 @@ class BootStrap {
     def grailsApplication
     def springSecurityService
     def mockingService
+
 
     def init = { servletContext ->
         // Throttle
@@ -111,6 +115,18 @@ class BootStrap {
             status.isCompleted()
         }
 
+
+    }
+
+
+    def passGen(){
+        def key
+        String alphabet = (('A'..'N')+('P'..'Z')+('a'..'k')+('m'..'z')+('2'..'9')).join()
+        def length = 12
+        key = new Random().with {
+            (1..length).collect { alphabet[ nextInt( alphabet.length() ) ] }.join()
+        }
+        return key
     }
 
     def destroy = {

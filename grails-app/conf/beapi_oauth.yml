@@ -1,0 +1,8 @@
+---
+oauth:
+    providers:
+        google:
+            key: '848711045025-08tb9du79m3i4figro4rrqtc2i07lrv2.apps.googleusercontent.com'
+            secret: '7pY7JUWkfwaXhF-i46PKkmn-'
+    debug: true
+

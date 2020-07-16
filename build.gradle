@@ -49,8 +49,6 @@ group "@grails.app.group@"
 
 apply plugin: "org.springframework.boot"
 apply plugin: "org.grails.grails-web"
-
-
 //apply plugin: "org.grails.grails-gsp"
 
 
@@ -102,6 +100,10 @@ dependencies {
     //compile 'io.r2dbc:r2dbc-spi:1.0.0.BUILD-SNAPSHOT'
     //compile 'io.r2dbc:r2dbc-h2:1.0.0.BUILD-SNAPSHOT'
 
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+
     /**
      * API Block
      */
@@ -129,7 +131,7 @@ dependencies {
     /**
      * Parallelization Block
      */
-    provided 'org.codehaus.gpars:gpars:1.2.1', {
+    provided('org.codehaus.gpars:gpars:1.2.1'){
         exclude group:'org.multiverse', module:'multiverse-core'
         exclude group:'org.codehaus.groovy', module: 'groovy-all'
     }
@@ -156,7 +158,6 @@ dependencies {
      */
     runtime 'mysql:mysql-connector-java:5.1.29'
 
-
     /**
      * Security block
      */
@@ -179,6 +180,7 @@ dependencies {
     provided 'org.apache.httpcomponents:httpcore:4.4.8'
 
 
+
     /**
      * Test Block
      */
@@ -194,6 +196,7 @@ dependencies {
     }
     testCompile "org.grails:grails-datastore-rest-client:4.0.4.RELEASE"
     console "org.grails:grails-console"
+
 
     /**
      * Scheduling

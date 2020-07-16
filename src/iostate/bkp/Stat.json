@@ -1,0 +1,48 @@
+{
+    "NAME":"stat",
+    "NETWORKGRP": "private",
+    "VALUES": {
+	"type": {
+            "type": "String",
+            "description":"Sort Order Statistic",
+	    "mockData":"0"
+        },
+	"apiTotals":{
+            "type": "Map",
+            "description":"Statistics",
+	    "mockData":"[:]"
+	},
+	"codeTotals":{
+            "type": "Map",
+            "description":"Statistics",
+	    "mockData":"[:]"
+	},
+	"userTotals":{
+            "type": "Map",
+            "description":"Statistics",
+	    "mockData":"[:]"
+	}
+    },
+	"CURRENTSTABLE": "1",
+	"VERSION": {
+		"1": {
+			"DEFAULTACTION":"show",
+			"URI": {
+			    "show": {
+			     	"METHOD":"GET",
+			    	"DESCRIPTION":"Retrieve statistics for API's",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["type"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["apiTotals","codeTotals","userTotals"]
+			        }
+			    }
+			}
+		}
+	}
+}

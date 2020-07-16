@@ -1,0 +1,154 @@
+{
+    "NAME":"person",
+    "NETWORKGRP": "public",
+    "VALUES": {
+        "id": {
+            "key": "PRIMARY",
+            "type": "Long",
+            "description":"ID for Event",
+	    "mockData":""
+        },
+        "version": {
+            "type": "Long",
+            "description":"Version for Event",
+	    "mockData":"0"
+        },
+	"username":{
+            "type": "String",
+            "description":"User Name",
+	    "mockData":"guest"
+	},
+	"password":{
+            "type": "String",
+            "description":"password",
+	    "mockData":"password"
+	},
+	"email":{
+            "type": "String",
+            "description":"Account Email",
+	    "mockData":"test@mockdata.com"
+	},
+	"firstName":{
+            "type": "String",
+            "description":"first name",
+	    "mockData":"Sherlock"
+	},
+	"lastName":{
+            "type": "String",
+            "description":"last name",
+	    "mockData":"Holmes"
+	},
+	"oauthProvider":{
+            "type": "String",
+            "description":"Oauth Provider (if available)",
+	    "mockData":"GMail"
+	},
+	"avatarUrl":{
+            "type": "String",
+            "description":"Event Type Name",
+	    "mockData":"https://en.gravatar.com/userimage/38053926/62165e36e1f429564a78e82db5b72591.jpg?size=200"
+	},
+	"enabled":{
+            "type": "Boolean",
+            "description":"Is Account Enabled",
+	    "mockData":"true"
+	},
+	"accountExpired":{
+            "type": "Boolean",
+            "description":"Is Account Expired",
+	    "mockData":"false"
+	},
+	"accountLocked":{
+            "type": "Boolean",
+            "description":"Is Account Locked",
+	    "mockData":"false"
+	},
+	"passwordExpired":{
+            "type": "Boolean",
+            "description":"Is Password Expired",
+	    "mockData":"false"
+	}
+    },
+	"CURRENTSTABLE": "1",
+	"VERSION": {
+		"1": {
+			"DEFAULTACTION":"list",
+			"URI": {
+			    "create": {
+			     	"METHOD":"POST",
+			    	"DESCRIPTION":"Create new Person",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["username","password","email","firstName","lastName"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["id","version","username","email","enabled","accountExpired"]
+			        }
+			    },
+			    "update": {
+			     	"METHOD":"PUT",
+			    	"DESCRIPTION":"Update Person",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":["username","password","email"],
+                                    "ROLE_ADMIN":["id","enabled"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["id","version"]
+			        }
+			    },
+			    "show": {
+			     	"METHOD":"GET",
+			    	"DESCRIPTION":"Get Person by ID",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":[],
+				    "ROLE_ADMIN":["id"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["id","version","username","email","enabled","accountExpired"]
+			        }
+			    },
+			    "list": {
+			     	"METHOD":"GET",
+			    	"DESCRIPTION":"List all Event Types",
+			    	"ROLES":{
+				    "DEFAULT":["ROLE_ADMIN"],
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":[]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["id","version","username","email","enabled","accountExpired"]
+			        }
+			    },
+			    "delete": {
+			     	"METHOD":"DELETE",
+			    	"DESCRIPTION":"Delete Person",
+			    	"ROLES":{
+				    "BATCH":["ROLE_ADMIN"],
+				    "HOOK":["ROLE_ADMIN"]
+				},
+			        "REQUEST": {
+			            "permitAll":[],
+                                    "ROLE_ADMIN":["id"]
+			        },
+			        "RESPONSE": {
+			        	"permitAll":["id"]
+			        }
+			    }
+			}
+		}
+	}
+}

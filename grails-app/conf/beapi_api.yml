@@ -1,10 +1,12 @@
 apitoolkit:
     apiName: api
     attempts: 5
-    procCores: 8
-    networkGroups: ['private','public']
+    procCores: 4
+    networkGroups: ['open','public','private']
     networkRoles:
-        public: ['ROLE_USER','ROLE_ADMIN']
+	open: ['ROLE_ADMIN','ROLE_ANONYMOUS']
+        open: ['ROLE_ADMIN','ROLE_ANONYMOUS']
+        public: ['ROLE_ADMIN','ROLE_USER']
         private: ['ROLE_ADMIN']
     views: ['admin','apidoc','api','login','logout']
     apiServer: ['http://localhost:8080']
@@ -30,13 +32,15 @@ apitoolkit:
         includeEnvironments: ['development','test','production']
         excludeEnvironments: []
         networkGroups:
-            public: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net']
-            private: ['http://localhost','http://localhost:8080','http://127.0.0.1']
+	    open: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net','http://test.nosegrind.net:8080']
+            open: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net','http://test.nosegrind.net:8080']
+            public: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net','http://test.nosegrind.net:8080']
+            private: ['http://localhost','http://localhost:8080','http://127.0.0.1','http://test.nosegrind.net','http://test.nosegrind.net:8080']
 
 ---
 root:
     login: admin
-    password: admin_password
+    password: Ch335eB0y
     email: youremail@yourdomain.com
 test:
     login: test

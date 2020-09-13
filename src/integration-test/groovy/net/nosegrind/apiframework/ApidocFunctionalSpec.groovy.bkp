@@ -90,6 +90,7 @@ class ApidocFunctionalSpec extends Specification {
             def info = new JsonSlurper().parseText(output)
         when:"info is not null"
             this.guestId = info['id']
+
             assert info!=null
         then:"created user"
             assert info['id'] != null

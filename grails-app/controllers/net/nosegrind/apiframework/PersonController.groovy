@@ -39,7 +39,7 @@ class PersonController{
     }
 
 	LinkedHashMap create(){
-		try{
+		//try{
 			Person user = new Person(username:"${params.username}",password:"${params.password}",email:"${params.email}")
 			if(user){
 				if(!user.save(flush:true,failOnError:true)){
@@ -49,9 +49,9 @@ class PersonController{
 			}else{
 				render(status: 500,text:"Params sent do not match requirements for database table.")
 			}
-		}catch(Exception e){
-			throw new Exception("[PersonController : create] : Exception - full stack trace follows:",e)
-		}
+		//}catch(Exception e){
+		//	throw new Exception("[PersonController : create] : Exception - full stack trace follows:",e)
+		//}
 	}
 
 	LinkedHashMap update(){

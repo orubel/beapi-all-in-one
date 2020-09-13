@@ -16,7 +16,7 @@ import grails.util.Metadata
 import org.grails.web.json.JSONObject
 import groovy.json.JsonSlurperClassic
 import grails.converters.JSON
-
+import grails.core.GrailsApplication
 
 
 @Integration

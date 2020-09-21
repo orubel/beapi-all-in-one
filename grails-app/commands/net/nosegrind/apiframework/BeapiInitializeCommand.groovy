@@ -36,9 +36,6 @@ class BeapiInitializeCommand implements ApplicationCommand {
 
         createSSH()
 
-
-
-
     }
 
     void createSSH(){

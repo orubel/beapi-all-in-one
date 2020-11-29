@@ -74,17 +74,18 @@ grails.plugin.springsecurity.failureHandler.ajaxAuthFailUrl = '/login/ajaxDenied
 //grails.plugin.reveng.manyToManyBelongsTos = 'none'
 
 
+String API_FILTERS = 'anonymousAuthenticationFilter,apiRequestFilter'
 grails.plugin.springsecurity.filterChain.chainMap = [
-	[pattern: "${entryPoint}/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-1/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-2/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-3/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-4/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-5/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-6/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-7/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-8/**",filters:'apiRequestFilter'],
-	[pattern: "${entryPoint}-9/**",filters:'apiRequestFilter'],
+		[pattern: "${entryPoint}/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-1/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-2/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-3/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-4/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-5/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-6/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-7/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-8/**",filters: API_FILTERS],
+		[pattern: "${entryPoint}-9/**",filters: API_FILTERS],
 	[pattern: "${batchEntryPoint}/**", filters:'apiRequestFilter'],
 	[pattern: "${batchEntryPoint}-1/**",filters:'apiRequestFilter'],
 	[pattern: "${batchEntryPoint}-2/**",filters:'apiRequestFilter'],

@@ -50,6 +50,7 @@ class ApiFunctionalSpec extends Specification {
             println(url)
 
             proc.waitFor()
+            println(proc.text)
 
             def info = new JsonSlurper().parseText(proc.text)
 

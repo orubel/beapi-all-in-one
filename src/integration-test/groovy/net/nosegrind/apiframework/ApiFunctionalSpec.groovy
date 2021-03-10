@@ -46,7 +46,11 @@ class ApiFunctionalSpec extends Specification {
 
             String url = "curl -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' ${this.testDomain}${loginUri}"
             def proc = ['bash','-c',url].execute();
+
+            println(url)
+
             proc.waitFor()
+
             def info = new JsonSlurper().parseText(proc.text)
 
         when:"set token"

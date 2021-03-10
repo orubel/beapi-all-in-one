@@ -45,6 +45,7 @@ class ApiFunctionalSpec extends Specification {
             String loginUri = grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
 
             String url = "curl -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' ${this.testDomain}${loginUri}"
+            println(url)
             def proc = ['bash','-c',url].execute();
 
 

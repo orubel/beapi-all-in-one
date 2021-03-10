@@ -7,10 +7,10 @@ class PersonController{
 	//def traceService
 
 	HashMap list() {
-		if(isSuperuser()){
-			def person = Person.list()
+			println(springSecurityService.principal.authorities)
+			def temp = Person.createCriteria()
+			def person = temp.list {}
 			return [person:person]
-		}
 	}
 
 

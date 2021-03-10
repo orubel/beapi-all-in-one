@@ -111,13 +111,8 @@ class ApiFunctionalSpec extends Specification {
             String output = outputStream.toString()
 
             def slurper = new JsonSlurper()
-            if(output) {
-                slurper.parseText(output).each() { k, v ->
-                    info[k] = v
-                }
-            }
         when:"info is null"
-            assert info==[:]
+            assert output.trim()=="Unauthorized Access attempted"
         then:"end test"
             assert true
     }

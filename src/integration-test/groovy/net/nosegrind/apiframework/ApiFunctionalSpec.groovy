@@ -45,11 +45,9 @@ class ApiFunctionalSpec extends Specification {
             String loginUri = grailsApplication.config.grails.plugin.springsecurity.rest.login.endpointUrl
 
             String url = "curl -H 'Content-Type: application/json' -X POST -d '{\"username\":\"${login}\",\"password\":\"${password}\"}' ${this.testDomain}${loginUri}"
-            println(url)
+
             def proc = ['bash','-c',url].execute();
-
-
-
+        
             proc.waitFor()
             def info = new JsonSlurper().parseText(proc.text)
 
@@ -76,12 +74,14 @@ class ApiFunctionalSpec extends Specification {
 
             String pkey = cache?."${version}"?."${action}".pkey[0]
 
-            def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/${this.controller}/show?id=${this.currentId}"].execute();
+            def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/${this.controller}/show/${this.currentId}"].execute();
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)
             String output = outputStream.toString()
 
+            println(output)
+        
             def slurper = new JsonSlurper()
             slurper.parseText(output).each(){ k,v ->
                 info[k] = v

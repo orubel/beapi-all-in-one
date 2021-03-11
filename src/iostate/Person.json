@@ -152,10 +152,10 @@
 					    "BATCH": ["ROLE_ADMIN"]
 					},
 					"REQUEST": {
-						"permitAll":[]
+						"ROLE_ADMIN":[]
 					},
 					"RESPONSE": {
-						"permitAll":["firstName","passwordExpired","accountExpired","oauthProvider","username","accountLocked","password","lastName","oauthId","enabled","avatarUrl","email","id","version"]
+						"ROLE_ADMIN":["firstName","passwordExpired","accountExpired","oauthProvider","username","accountLocked","password","lastName","oauthId","enabled","avatarUrl","email","id","version"]
 					}
 				},
 				"delete": {

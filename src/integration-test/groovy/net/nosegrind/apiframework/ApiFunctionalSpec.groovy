@@ -61,7 +61,7 @@ class ApiFunctionalSpec extends Specification {
             assert info.token_type == 'Bearer'
     }
 
-    void "GET api call: [domain object]"() {
+    void "GET api call with bad data: [domain object]"() {
         setup:"api is called"
             String METHOD = "GET"
             LinkedHashMap info = [:]
@@ -80,18 +80,41 @@ class ApiFunctionalSpec extends Specification {
             proc.waitForProcessOutput(outputStream, System.err)
             String output = outputStream.toString()
 
-            println(output)
-        
-            def slurper = new JsonSlurper()
-            slurper.parseText(output).each(){ k,v ->
-                info[k] = v
-            }
-        when:"info is not null"
-            assert info!=[:]
+        when:"output is not null"
+            assert output!=null
         then:"get user"
-            cache?."${version}"?."${action}".returns.each(){ k,v ->
-                assert this.authorities.contains(k)
-            }
+            assert output.startsWith('Expected request variables for endpoint')
+    }
+
+    void "GET api call with good data: [domain object]"() {
+        setup:"api is called"
+        String METHOD = "GET"
+        LinkedHashMap info = [:]
+        ApiCacheService apiCacheService = applicationContext.getBean("apiCacheService")
+        LinkedHashMap cache = apiCacheService.getApiCache(this.controller)
+
+        Integer version = cache['cacheversion']
+
+        String action = 'show'
+
+        String pkey = cache?."${version}"?."${action}".pkey[0]
+
+        def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/${this.controller}/show"].execute();
+        proc.waitFor()
+        def outputStream = new StringBuffer()
+        proc.waitForProcessOutput(outputStream, System.err)
+        String output = outputStream.toString()
+
+        def slurper = new JsonSlurper()
+        slurper.parseText(output).each(){ k,v ->
+            info[k] = v
+        }
+        when:"info is not null"
+        assert info!=[:]
+        then:"get user"
+        cache?."${version}"?."${action}".returns.each(){ k,v ->
+            assert this.authorities.contains(k)
+        }
     }
 
     // Does not have right privileges; should always fail

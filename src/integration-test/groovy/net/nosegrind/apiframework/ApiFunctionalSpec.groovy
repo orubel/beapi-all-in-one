@@ -34,7 +34,7 @@ class ApiFunctionalSpec extends Specification {
     @Shared String testDomain
     @Shared List authorities = ['permitAll']
     @Shared String controller = 'person'
-    @Shared String currentId
+
     @Shared String appVersion = "v${Metadata.current.getProperty(Metadata.APPLICATION_VERSION, String.class)}"
 
     void "login the test user"(){
@@ -74,7 +74,7 @@ class ApiFunctionalSpec extends Specification {
 
             String pkey = cache?."${version}"?."${action}".pkey[0]
 
-            def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/${this.controller}/show/${this.currentId}"].execute();
+            def proc = ["curl","-H","Content-Type: application/json","-H","Authorization: Bearer ${this.token}","--request","${METHOD}","${this.testDomain}/${this.appVersion}/${this.controller}/show/1"].execute();
             proc.waitFor()
             def outputStream = new StringBuffer()
             proc.waitForProcessOutput(outputStream, System.err)

@@ -100,10 +100,11 @@
 					    "BATCH": ["ROLE_ADMIN"]
 					},
 					"REQUEST": {
-						"permitAll":["id"]
+						"permitAll":[],
+						"ROLE_ADMIN":["id"]
 					},
 					"RESPONSE": {
-						"permitAll":["firstName","passwordExpired","accountExpired","oauthProvider","username","accountLocked","password","lastName","oauthId","enabled","avatarUrl","email","id","version"]
+						"permitAll":["id","version","username","email","enabled","accountExpired"]
 					}
 				},
 				"getByUsername": {

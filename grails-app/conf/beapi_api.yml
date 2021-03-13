@@ -2,6 +2,7 @@ apitoolkit:
     apiName: api
     attempts: 5
     procCores: 4
+    documentationUrl: 'http://orubel.github.io/Beapi-API-Framework/'
     networkGroups: ['open','public','private']
     networkRoles:
 	open: ['ROLE_ADMIN','ROLE_ANONYMOUS']
